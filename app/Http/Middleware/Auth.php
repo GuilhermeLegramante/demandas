@@ -17,18 +17,10 @@ class Auth
      */
     public function handle($request, Closure $next)
     {
-        session_start();
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (isset($_SESSION['login'])) {
-            if ($_SESSION['login'] == 'logado') {
-                return $next($request);
-            }
+        if (Session::get('isLogged')) {
+            return $next($request);
         } else {
-            return Redirect::to(env('APP_PORTAL_URL'));
+            return redirect()->route('loginView');;
         }
     }
 }

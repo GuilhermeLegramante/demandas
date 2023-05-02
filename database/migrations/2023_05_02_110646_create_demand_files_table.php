@@ -17,7 +17,7 @@ class CreateDemandFilesTable extends Migration
             $table->integer('id', true);
             $table->integer('user_id');
             $table->integer('demand_id');
-            $table->integer('file_id');
+            $table->text('path');
             $table->timestamps();
             $table->foreign('user_id')
                 ->references('id')
@@ -26,10 +26,6 @@ class CreateDemandFilesTable extends Migration
             $table->foreign('demand_id')
                 ->references('id')
                 ->on('demands')
-                ->onDelete('cascade');
-            $table->foreign('file_id')
-                ->references('id')
-                ->on('files')
                 ->onDelete('cascade');
         });
     }

@@ -5,10 +5,7 @@
 @endsection
 
 @section('page_content')
+@include('partials.cards.user')
 
-<h1 class="title text-center"> TESTE</h1>
-
-
-
-
+@include('partials.footer.crud')
 @endsection

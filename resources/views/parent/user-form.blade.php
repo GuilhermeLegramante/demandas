@@ -2,6 +2,6 @@
 
 @section('content')
 <div>
-    @livewire('calendar')
+    @livewire('user-form', ['id' => $id])
 </div>
 @endsection
