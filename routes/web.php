@@ -14,4 +14,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/inclusao', 'UserController@form')->name('user.create');
         Route::get('/{id}', 'UserController@form')->name('user.edit');
     });
+
+    Route::prefix('/cliente')->group(function () {
+        Route::get('/', 'ClientController@table')->name('client.table');
+        Route::get('/inclusao', 'ClientController@form')->name('client.create');
+        Route::get('/{id}', 'ClientController@form')->name('client.edit');
+    });
 });

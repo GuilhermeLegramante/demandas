@@ -38,7 +38,7 @@ class AuthController extends Controller
 
 
         if ($user != null) {
-            Session::put('userId', $user->login);
+            Session::put('userId', $user->id);
             Session::put('username', $user->name);
         }
 

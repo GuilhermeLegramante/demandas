@@ -211,38 +211,26 @@ return [
         [
             'text' => 'Demandas',
             'icon' => 'nav-icon fas fa-list',
-            'submenu' => [
-                [
-                    'text' => 'Inserir',
-                    'icon' => 'nav-icon fas fa-plus',
-                    'url' => '/orgao/inserir',
-                    'active' => ['orgao/inserir/*'],
-                ],
-                [
-                    'text' => 'Consultar',
-                    'icon' => 'nav-icon fas fa-search',
-                    'url' => '/orgao/consultar',
-                    'active' => ['orgao/consultar/*'],
-                ],
-            ],
+            'url' => '/demanda',
+            'active' => ['demanda/*'],
         ],
         [
-            'text' => 'Cadastro',
-            'icon' => 'nav-icon fas fa-list-alt',
-            'submenu' => [
-                [
-                    'text' => 'Usuários',
-                    'icon' => 'nav-icon fas fa-users',
-                    'url' => '/usuario',
-                    'active' => ['usuario/*'],
-                ],
-                [
-                    'text' => 'Clientes',
-                    'icon' => 'nav-icon fas fa-users',
-                    'url' => '/cliente',
-                    'active' => ['cliente/*'],
-                ],
-            ],
+            'text' => 'Clientes',
+            'icon' => 'nav-icon fas fa-users',
+            'url' => '/cliente',
+            'active' => ['cliente/*'],
+        ],
+        [
+            'text' => 'Usuários',
+            'icon' => 'nav-icon fas fa-users',
+            'url' => '/usuario',
+            'active' => ['usuario/*'],
+        ],
+
+        [
+            'text' => 'Sair',
+            'url' => '/sair',
+            'icon' => 'nav-icon fas fa-sign-out-alt',
         ],
     ],
 
