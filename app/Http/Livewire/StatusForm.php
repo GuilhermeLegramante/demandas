@@ -5,43 +5,42 @@ namespace App\Http\Livewire;
 use App;
 use Livewire\Component;
 use App\Http\Livewire\Traits\WithForm;
-use App\Services\Mask;
 
-class ClientForm extends Component
+class StatusForm extends Component
 {
     use WithForm;
 
-    public $pageTitle = 'Cliente';
-    public $icon = 'fas fa-user-tag';
-    public $basePath = 'client.table';
-    public $previousRoute = 'client.table';
+    public $pageTitle = 'Status';
+    public $icon = 'fas fa-clipboard-list';
+    public $basePath = 'status.table';
+    public $previousRoute = 'status.table';
     public $method = 'store';
-    public $formTitle = 'DADOS DO CLIENTE';
+    public $formTitle = 'DADOS DO STATUS';
 
-    protected $repositoryClass = 'App\Repositories\ClientRepository';
+    protected $repositoryClass = 'App\Repositories\DemandStatusRepository';
 
-    public $name;
-    public $email;
-    public $phone;
+    public $description;
+    public $color;
+    public $note;
 
     protected $inputs = [
         ['field' => 'recordId', 'edit' => true],
-        ['field' => 'name', 'edit' => true, 'type' => 'string'],
-        ['field' => 'email', 'edit' => true],
-        ['field' => 'phone', 'edit' => true, 'type' => 'string'],
+        ['field' => 'description', 'edit' => true, 'type' => 'string'],
+        ['field' => 'color', 'edit' => true],
+        ['field' => 'note', 'edit' => true, 'type' => 'string'],
     ];
 
     protected $validationAttributes = [
-        'name' => 'Nome',
-        'email' => 'E-mail',
-        'phone' => 'Telefone',
+        'description' => 'Descrição',
+        'color' => 'Cor',
+        'note' => 'Observação',
     ];
 
     public function rules()
     {
         return [
-            'name' => ['required'],
-            'email' => ['email'],
+            'description' => ['required'],
+            'color' => ['required'],
         ];
     }
 
@@ -62,20 +61,15 @@ class ClientForm extends Component
         }
     }
 
-    public function updatedPhone()
-    {
-        $this->phone = Mask::phone($this->phone);
-    }
-
     public function setFields($data)
     {
         $this->recordId = $data->id;
 
-        $this->name = $data->name;
+        $this->description = $data->description;
 
-        $this->phone = $data->phone;
+        $this->color = $data->color;
 
-        $this->email = $data->email;
+        $this->note = $data->note;
     }
 
     public function customValidate()
@@ -90,6 +84,6 @@ class ClientForm extends Component
 
     public function render()
     {
-        return view('livewire.client-form');
+        return view('livewire.status-form');
     }
 }

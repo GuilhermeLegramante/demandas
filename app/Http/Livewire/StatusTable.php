@@ -11,26 +11,30 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
 
-class DemandStatusTable extends Component
+class StatusTable extends Component
 {
     use WithDatatable, WithPagination;
 
-    public $entity = '';
-    public $pageTitle = '';
-    public $icon = '';
-    public $searchFieldsLabel = '';
+    public $entity = 'status';
+    public $pageTitle = 'Status';
+    public $icon = 'fas fa-clipboard-list';
+    public $searchFieldsLabel = 'Código ou Descrição';
     public $hasForm = true;
 
     public $headerColumns = [
-        ['field' => '', 'label' => '', 'css' => ''],
+        ['field' => 'id', 'label' => 'Código', 'css' => 'text-center w-5'],
+        ['field' => 'color', 'label' => 'Cor', 'css' => 'text-center w-15'],
+        ['field' => 'description', 'label' => 'Descrição', 'css' => 'w-70'],
         ['field' => null, 'label' => 'Ações', 'css' => 'w-5 text-center'],
     ];
 
     public $bodyColumns = [
-        ['field' => '', 'type' => '', 'css' => ''],
+        ['field' => 'id', 'type' => 'string', 'css' => 'text-center'],
+        ['field' => 'color', 'type' => 'color', 'css' => 'text-center'],
+        ['field' => 'description', 'type' => 'string', 'css' => 'pl-12px'],
     ];
 
-    protected $repositoryClass = 'App\Repositories\...Repository';
+    protected $repositoryClass = 'App\Repositories\DemandStatusRepository';
 
     public function mount()
     {
@@ -59,6 +63,6 @@ class DemandStatusTable extends Component
 
         $buttons = $this->rowButtons();
 
-        return view('livewire.demand-status-table', compact('data', 'buttons'));
+        return view('livewire.status-table', compact('data', 'buttons'));
     }
 }

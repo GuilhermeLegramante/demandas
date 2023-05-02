@@ -20,4 +20,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/inclusao', 'ClientController@form')->name('client.create');
         Route::get('/{id}', 'ClientController@form')->name('client.edit');
     });
+
+    Route::prefix('/status')->group(function () {
+        Route::get('/', 'StatusController@table')->name('status.table');
+        Route::get('/inclusao', 'StatusController@form')->name('status.create');
+        Route::get('/{id}', 'StatusController@form')->name('status.edit');
+    });
+
+    Route::prefix('/tipo-de-demanda')->group(function () {
+        Route::get('/', 'DemandTypeController@table')->name('demand-type.table');
+        Route::get('/inclusao', 'DemandTypeController@form')->name('demand-type.create');
+        Route::get('/{id}', 'DemandTypeController@form')->name('demand-type.edit');
+    });
 });

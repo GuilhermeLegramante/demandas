@@ -7,36 +7,31 @@ use App\Http\Livewire\Components\Button;
 use App\Http\Livewire\Traits\WithDatatable;
 use Livewire\Component;
 use App\Services\SessionService;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
 
-class ClientTable extends Component
+class DemandTypeTable extends Component
 {
     use WithDatatable, WithPagination;
 
-    public $entity = 'client';
-    public $pageTitle = 'Clientes';
-    public $icon = 'fas fa-user-tag';
-    public $searchFieldsLabel = 'Código ou Nome';
+    public $entity = 'demand-type';
+    public $pageTitle = 'Tipo de Demanda';
+    public $icon = 'fas fa-list';
+    public $searchFieldsLabel = 'Código ou Descrição';
     public $hasForm = true;
 
     public $headerColumns = [
-        ['field' => 'id', 'label' => 'Código', 'css' => 'text-center w-15'],
-        ['field' => 'name', 'label' => 'Nome', 'css' => 'w-40'],
-        ['field' => 'email', 'label' => 'E-mail', 'css' => 'w-20'],
-        ['field' => 'phone', 'label' => 'Telefone', 'css' => 'w-20'],
+        ['field' => 'id', 'label' => 'Código', 'css' => 'text-center w-5'],
+        ['field' => 'description', 'label' => 'Descrição', 'css' => 'w-70'],
         ['field' => null, 'label' => 'Ações', 'css' => 'w-5 text-center'],
     ];
 
     public $bodyColumns = [
         ['field' => 'id', 'type' => 'string', 'css' => 'text-center'],
-        ['field' => 'name', 'type' => 'string', 'css' => 'pl-12px'],
-        ['field' => 'email', 'type' => 'string', 'css' => 'pl-12px'],
-        ['field' => 'phone', 'type' => 'string', 'css' => 'pl-12px'],
+        ['field' => 'description', 'type' => 'string', 'css' => 'pl-12px'],
     ];
 
-    protected $repositoryClass = 'App\Repositories\ClientRepository';
+    protected $repositoryClass = 'App\Repositories\DemandTypeRepository';
 
     public function mount()
     {
@@ -65,6 +60,6 @@ class ClientTable extends Component
 
         $buttons = $this->rowButtons();
 
-        return view('livewire.client-table', compact('data', 'buttons'));
+        return view('livewire.demand-type-table', compact('data', 'buttons'));
     }
 }

@@ -216,9 +216,21 @@ return [
         ],
         [
             'text' => 'Clientes',
-            'icon' => 'nav-icon fas fa-users',
+            'icon' => 'nav-icon fas fa-user-tag',
             'url' => '/cliente',
             'active' => ['cliente/*'],
+        ],
+        [
+            'text' => 'Status',
+            'icon' => 'nav-icon fas fa-clipboard-list',
+            'url' => '/status',
+            'active' => ['status/*'],
+        ],
+        [
+            'text' => 'Tipos de Demanda',
+            'icon' => 'nav-icon fas fa-list-alt',
+            'url' => '/tipo-de-demanda',
+            'active' => ['tipo-de-demanda/*'],
         ],
         [
             'text' => 'Usuários',
@@ -226,7 +238,6 @@ return [
             'url' => '/usuario',
             'active' => ['usuario/*'],
         ],
-
         [
             'text' => 'Sair',
             'url' => '/sair',
