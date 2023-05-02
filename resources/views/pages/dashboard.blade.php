@@ -6,7 +6,7 @@
 
 @section('page_content')
 
-<div wire:ignore.self class="card card-primary card-outline">
+<div wire:ignore.self class="card">
     <div class="card-header" data-card-widget="collapse">
         <div class="row mt-1">
             <div class="col-md-4">
@@ -22,25 +22,69 @@
     </div>
     <div class="card-body">
         <div class="row">
-            @include('partials.inputs.number', [
-            'columnSize' => 6,
-            'label' => 'Data Inicial',
-            'model' => 'startYear',
+            @include('partials.inputs.select', [
+            'columnSize' => 3,
+            'label' => 'Status',
+            'model' => 'filterStatus',
+            'options' => [
+            ['value' => 1, 'description' => 'NA FILA'],
+            ['value' => 2, 'description' => 'EM PRODUÇÃO'],
+            ['value' => 3, 'description' => 'ENVIADO'],
+            ['value' => 3, 'description' => 'APROVADO'],
+            ['value' => 3, 'description' => 'POSTADO'],
+            ],
             ])
 
-            @include('partials.inputs.number', [
-            'columnSize' => 6,
+            @include('partials.inputs.select', [
+            'columnSize' => 3,
+            'label' => 'Tipo de Demanda',
+            'model' => 'filterStatus',
+            'options' => [
+            ['value' => 1, 'description' => 'NORMAL'],
+            ['value' => 2, 'description' => 'EXTRA'],
+            ],
+            ])
+
+            @include('partials.inputs.date', [
+            'columnSize' => 3,
+            'label' => 'Data Inicial',
+            'model' => 'filterStartDate',
+            ])
+
+            @include('partials.inputs.date', [
+            'columnSize' => 3,
             'label' => 'Data Final',
-            'model' => 'finalYear',
+            'model' => 'filterFinalDate',
             ])
         </div>
 
+        <div class="row">
+            @include('partials.inputs.text', [
+            'columnSize' => 12,
+            'label' => 'Busca textual (título, info na arte ou redação)',
+            'model' => 'filterText',
+            'maxLenght' => 100,
+            ])
+        </div>
+
+        <div class="row">
+            @include('partials.inputs.select', [
+            'columnSize' => 12,
+            'label' => 'Cliente',
+            'model' => 'filterClientId',
+            'options' => [
+            ['value' => 1, 'description' => 'CLIENTE A'],
+            ['value' => 2, 'description' => 'CLIENTE B'],
+            ['value' => 3, 'description' => 'CLIENTE C'],
+            ],
+            ])
+        </div>
     </div>
 </div>
 
 
 
-<div wire:ignore.self class="card card-outline card-primary collapsed-card">
+{{-- <div wire:ignore.self class="card card-outline card-primary collapsed-card">
     <div class="card-header" data-card-widget="collapse">
         <h2 class="text-center"><strong>Abril 2023</strong></h2>
         <div class="card-tools mt-n3">
@@ -248,13 +292,13 @@
             </table>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div wire:ignore.self class="card">
     <div class="card-header" data-card-widget="collapse">
         <div class="row mt-1">
             <div class="col-md-4">
-                <h3 class="card-title cardTitleCustom"><strong> DEMANDAS: 01/04/2023</strong>
+                <h3 class="card-title cardTitleCustom"><strong> LISTA DE DEMANDAS</strong>
                 </h3>
             </div>
         </div>
@@ -267,21 +311,27 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <div wire:ignore.self class="card card-outline card-secondary collapsed-card">
+                <div style="border-top: 3px solid {{ $statusColor }};" wire:ignore.self class="card card-outline card-secondary collapsed-card">
                     <div class="card-header">
-                        <h3 class="card-title"><strong>PORTO SUSHI - Título do Post</strong></h3>
+                        <h3 class="card-title"><strong>PORTO SUSHI</strong></h3>
                         <div class="card-tools mt-2">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
+                        <br>
+                        <p><small><strong>TÍTULO DO POST AQUI</strong></small></p>
                     </div>
                     <div class="card-body">
                         <p class="text-center"><strong>INFORMAÇÕES NA ARTE</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis</p>
                         <hr>
                         <p class="text-center"><strong>REDAÇÃO</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat,
+                            tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas
+                            tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
                         <hr>
                         <p class="text-center"><strong>ANEXOS</strong></p>
                         <a href="">anexo_01.png</a><br>
@@ -291,7 +341,7 @@
                         <div class="info-box bg-danger">
                             <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-number">30/04</span>
+                                <span class="info-box-number">30/04 às 10:30</span>
                                 <div class="progress">
                                     <div class="progress-bar" style="width: 90%"></div>
                                 </div>
@@ -307,25 +357,37 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card-footer text-center">
+                        <button wire:click.prevent="showForm(1)" type="submit" wire:loading.attr="disabled" class="btn btn-outline-primary btn-sm">
+                            <strong> EDITAR &nbsp;</strong>
+                            <i class="fas fa-edit" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div wire:ignore.self class="card card-outline card-primary collapsed-card">
                     <div class="card-header">
-                        <h3 class="card-title"><strong>PORTO SUSHI - Título do Post</strong></h3>
+                        <h3 class="card-title"><strong>PORTO SUSHI</strong></h3>
                         <div class="card-tools mt-2">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
+                        <br>
+                        <p><small><strong>TÍTULO DO POST AQUI</strong></small></p>
                     </div>
 
                     <div class="card-body">
                         <p class="text-center"><strong>INFORMAÇÕES NA ARTE</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis</p>
                         <hr>
                         <p class="text-center"><strong>REDAÇÃO</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat,
+                            tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas
+                            tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
                         <hr>
                         <p class="text-center"><strong>ANEXOS</strong></p>
                         <a href="">anexo_01.png</a><br>
@@ -335,7 +397,7 @@
                         <div class="info-box bg-light">
                             <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-number">20/04</span>
+                                <span class="info-box-number">20/04 às 14:00</span>
                                 <div class="progress">
                                     <div class="progress-bar" style="width: 50%"></div>
                                 </div>
@@ -356,20 +418,26 @@
             <div class="col-md-3">
                 <div wire:ignore.self class="card card-outline card-warning collapsed-card">
                     <div class="card-header">
-                        <h3 class="card-title"><strong>MARCA E SINAL - Título do Post</strong></h3>
+                        <h3 class="card-title"><strong>MARCA E SINAL</strong></h3>
                         <div class="card-tools mt-2">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
+                        <br>
+                        <p><small><strong>TÍTULO DO POST AQUI</strong></small></p>
                     </div>
 
                     <div class="card-body">
                         <p class="text-center"><strong>INFORMAÇÕES NA ARTE</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis</p>
                         <hr>
                         <p class="text-center"><strong>REDAÇÃO</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat,
+                            tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas
+                            tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
                         <hr>
                         <p class="text-center"><strong>ANEXOS</strong></p>
                         <a href="">anexo_01.png</a><br>
@@ -400,19 +468,25 @@
             <div class="col-md-3">
                 <div wire:ignore.self class="card card-outline card-info collapsed-card">
                     <div class="card-header">
-                        <h3 class="card-title"><strong>ZEFERINO - Título do Post</strong></h3>
+                        <h3 class="card-title"><strong>ZEFERINO</strong></h3>
                         <div class="card-tools mt-2">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
+                        <br>
+                        <p><small><strong>TÍTULO DO POST AQUI</strong></small></p>
                     </div>
                     <div class="card-body">
                         <p class="text-center"><strong>INFORMAÇÕES NA ARTE</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis</p>
                         <hr>
                         <p class="text-center"><strong>REDAÇÃO</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat,
+                            tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas
+                            tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
                         <hr>
                         <p class="text-center"><strong>ANEXOS</strong></p>
                         <a href="">anexo_01.png</a><br>
@@ -422,7 +496,7 @@
                         <div class="info-box bg-light">
                             <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-number">20/04</span>
+                                <span class="info-box-number">20/04 às 15:00</span>
                                 <div class="progress">
                                     <div class="progress-bar" style="width: 50%"></div>
                                 </div>
@@ -443,19 +517,25 @@
             <div class="col-md-3">
                 <div wire:ignore.self class="card card-outline card-success collapsed-card">
                     <div class="card-header">
-                        <h3 class="card-title"><strong>PORTO SUSHI - Título do Post</strong></h3>
+                        <h3 class="card-title"><strong>PORTO SUSHI</strong></h3>
                         <div class="card-tools mt-2">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
+                        <br>
+                        <p><small><strong>TÍTULO DO POST AQUI</strong></small></p>
                     </div>
                     <div class="card-body">
                         <p class="text-center"><strong>INFORMAÇÕES NA ARTE</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis</p>
                         <hr>
                         <p class="text-center"><strong>REDAÇÃO</strong></p>
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+                            convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat,
+                            tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas
+                            tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
                         <hr>
                         <p class="text-center"><strong>ANEXOS</strong></p>
                         <a href="">anexo_01.png</a><br>
@@ -485,7 +565,147 @@
             </div>
         </div>
     </div>
+
 </div>
+
+<div id="menu-rapido" class="fab z-index-9999999">
+    <button class="main"></button>
+    <ul>
+        <li>
+            <label>Incluir Demanda</label>
+            <button id="opcao3" wire:click="showForm()">
+                <i class="fas fa-plus" aria-hidden="true"></i>
+            </button>
+        </li>
+    </ul>
+</div>
+
+<div wire:ignore.self class="modal fade z-index-99999" id="modal-demand-form" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <p><strong>Incluir Demanda</strong></p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true close-btn">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @include('partials.inputs.text', [
+                    'columnSize' => 12,
+                    'label' => 'Título',
+                    'model' => 'title',
+                    'maxLenght' => 100,
+                    ])
+                </div>
+
+                <div class="row">
+                    @include('partials.inputs.text', [
+                    'columnSize' => 12,
+                    'label' => 'Informações na arte',
+                    'model' => 'subtitle',
+                    'maxLenght' => 100,
+                    ])
+                </div>
+
+                <div class="row">
+                    @include('partials.inputs.textarea', [
+                    'columnSize' => 12,
+                    'label' => 'Redação',
+                    'model' => 'description',
+                    'rows' => 6,
+                    'maxLength' => 5000,
+                    ])
+                </div>
+
+                <div class="row">
+                    @include('partials.inputs.select', [
+                    'columnSize' => 12,
+                    'label' => 'Cliente',
+                    'model' => 'clientId',
+                    'options' => [
+                    ['value' => 1, 'description' => 'CLIENTE A'],
+                    ['value' => 2, 'description' => 'CLIENTE B'],
+                    ['value' => 3, 'description' => 'CLIENTE C'],
+                    ],
+                    ])
+                </div>
+
+                <div class="row">
+                    @include('partials.inputs.select', [
+                    'columnSize' => 12,
+                    'label' => 'Tipo de Demanda',
+                    'model' => 'demandTypeId',
+                    'options' => [
+                    ['value' => 1, 'description' => 'NORMAL'],
+                    ['value' => 2, 'description' => 'EXTRA'],
+                    ],
+                    ])
+                </div>
+
+                <div class="row">
+                    @include('partials.inputs.select', [
+                    'columnSize' => 12,
+                    'label' => 'Status',
+                    'model' => 'demandStatusId',
+                    'options' => [
+                    ['value' => 1, 'description' => 'NA FILA'],
+                    ['value' => 2, 'description' => 'EM PRODUÇÃO'],
+                    ['value' => 3, 'description' => 'ENVIADO'],
+                    ['value' => 3, 'description' => 'APROVADO'],
+                    ['value' => 3, 'description' => 'POSTADO'],
+                    ],
+                    ])
+                </div>
+
+                <div class="row">
+                    @include('partials.inputs.date', [
+                    'columnSize' => 12,
+                    'label' => 'Data e Hora da publicação',
+                    'model' => 'publicationDate',
+                    'isDatetime' => true,
+                    ])
+                </div>
+
+                <div class="row">
+                    @include('partials.inputs.file', [
+                    'columnSize' => 12,
+                    'label' => 'Anexos',
+                    'model' => 'files',
+                    'multiple' => true,
+                    ])
+                </div>
+
+                @if($isEdition)
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="">anexo_01.png</a><br>
+                        <a href="">anexo_02.png</a><br>
+                        <a href="">anexo_03.png</a><br>
+                    </div>
+                </div>
+                @endif
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal" wire:loading.attr="disabled">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                    <strong> CANCELAR &nbsp;</strong>
+                </button>
+                <button wire:click.prevent="selectMultiple" wire:key="selectMultiple" type="submit" wire:loading.attr="disabled" class="btn btn-primary btn-sm">
+                    <strong> CONFIRMAR &nbsp;</strong>
+                    <i class="fas fa-check" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 <style>
     .cel-hover th:hover,
@@ -496,3 +716,13 @@
 </style>
 
 @endsection
+
+@push('scripts')
+<script>
+    window.livewire.on('showDemandFormModal', () => {
+        $('#modal-demand-form').modal('show');
+    });
+
+</script>
+
+@endpush
