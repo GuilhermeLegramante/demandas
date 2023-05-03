@@ -41,7 +41,6 @@ class ClientForm extends Component
     {
         return [
             'name' => ['required'],
-            'email' => ['email'],
         ];
     }
 

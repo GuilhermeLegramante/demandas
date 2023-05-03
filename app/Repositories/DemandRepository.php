@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Services\LogService;
 use Illuminate\Support\Facades\DB;
+use Storage;
 
 class DemandRepository
 {
@@ -15,6 +16,7 @@ class DemandRepository
     {
         $this->baseQuery = DB::table($this->table)
             ->join('users', 'users.id', '=', 'demands.user_id')
+            ->join('clients', 'clients.id', '=', 'demands.client_id')
             ->join('demand_status', 'demand_status.id', '=', 'demands.demand_status_id')
             ->join('demand_types', 'demand_types.id', '=', 'demands.demand_type_id')
             ->select(
@@ -22,30 +24,70 @@ class DemandRepository
                 $this->table . '.title AS title',
                 $this->table . '.subtitle AS subtitle',
                 $this->table . '.description AS description',
+                $this->table . '.publication_date AS publicationDate',
                 $this->table . '.user_id AS userId',
                 'users.name AS username',
+                $this->table . '.client_id AS clientId',
+                'clients.name AS clientName',
                 $this->table . '.demand_status_id AS demandStatusId',
                 'demand_status.description AS demandStatusDescription',
                 'demand_status.color AS demandStatusColor',
                 $this->table . '.demand_type_id AS demandTypeId',
-                'demand_types.color AS demandTypeDescription',
+                'demand_types.description AS demandTypeDescription',
                 $this->table . '.created_at AS createdAt',
                 $this->table . '.updated_at AS updatedAt',
+                DB::raw("abs((SELECT DATEDIFF('" . now() . "', demands.publication_date))) AS daysRemaining"),
             );
     }
 
-    public function all(string $search = null, string $sortBy = 'id', string $sortDirection = 'asc', string $perPage = '30')
-    {
-        return $this->baseQuery
-            ->where([
-                [$this->table . '.id', 'like', '%' . $search . '%'],
-            ])
-            ->orWhere([
-                [$this->table . '.description', 'like', '%' . $search . '%'],
-            ])
-            ->orWhere([
-                [$this->table . '.note', 'like', '%' . $search . '%'],
-            ])
+    public function all(
+        $status = null,
+        $demandType = null,
+        string $startDate = null,
+        string $finalDate = null,
+        string $search = null,
+        $clientId = null,
+        string $sortBy = 'id',
+        string $sortDirection = 'asc',
+        string $perPage = '30'
+    ) {
+        $demands = $this->baseQuery;
+
+        if ($status != null) {
+            $demands->where($this->table . '.demand_status_id', $status);
+        }
+
+        if ($demandType != null) {
+            $demands->where($this->table . '.demand_type_id', $demandType);
+        }
+
+        if ($startDate != null) {
+            $demands->where($this->table . '.publication_date', '>=', $startDate);
+        }
+
+        if ($finalDate != null) {
+            $demands->where($this->table . '.publication_date', '<=', $finalDate);
+        }
+
+        if ($clientId != null) {
+            $demands->where($this->table . '.client_id', $clientId);
+        }
+
+        if ($search != null) {
+            $demands = $demands->where(function ($q) use ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->where($this->table . '.title', 'like', '%' . $search . '%');
+                })
+                    ->orWhere(function ($query) use ($search) {
+                        $query->where($this->table . '.subtitle', 'like', '%' . $search . '%');
+                    })
+                    ->orWhere(function ($query) use ($search) {
+                        $query->where($this->table . '.description', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        return $demands
             ->orderBy($sortBy, $sortDirection)
             ->paginate($perPage);
     }
@@ -72,6 +114,8 @@ class DemandRepository
                     'title' => $data['title'],
                     'subtitle' => isset($data['subtitle']) ? $data['subtitle'] : null,
                     'description' => $data['description'],
+                    'publication_date' => isset($data['publicationDate']) ? $data['publicationDate'] : null,
+                    'client_id' => $data['clientId'],
                     'user_id' => session()->get('userId'),
                     'demand_status_id' => $data['demandStatusId'],
                     'demand_type_id' => $data['demandTypeId'],
@@ -80,13 +124,17 @@ class DemandRepository
             );
 
         if (isset($data['files'])) {
-            foreach ($data['files'] as $path) {
+            foreach ($data['files'] as $file) {
+                $path = '_lsmarketing/demandas';
+
+                $s3Path = Storage::disk('s3')->put($path, $file);
+
                 DB::table('demand_files')
                     ->insertGetId(
                         [
-                            'path' => $path,
+                            'path' => $s3Path,
                             'user_id' => session()->get('userId'),
-                            'demand_id' => $data['recordId'],
+                            'demand_id' => $demandId,
                             'created_at' => now(),
                         ]
                     );
@@ -114,6 +162,8 @@ class DemandRepository
                     'title' => $data['title'],
                     'subtitle' => isset($data['subtitle']) ? $data['subtitle'] : null,
                     'description' => $data['description'],
+                    'publication_date' => isset($data['publicationDate']) ? $data['publicationDate'] : null,
+                    'client_id' => $data['clientId'],
                     'user_id' => session()->get('userId'),
                     'demand_status_id' => $data['demandStatusId'],
                     'demand_type_id' => $data['demandTypeId'],
@@ -164,9 +214,21 @@ class DemandRepository
 
     public function findById($id)
     {
-        return $this->baseQuery
+        $demand = $this->baseQuery
             ->where($this->table . '.id', $id)
             ->get()
             ->first();
+
+        $files = DB::table('demands')
+            ->join('demand_files', 'demand_files.demand_id', '=', 'demands.id')
+            ->where('demands.id', $id)
+            ->select(
+                'demand_files.id AS id',
+                'demand_files.path AS path',
+            )->get();
+
+        $demand->files = $files;
+
+        return $demand;
     }
 }

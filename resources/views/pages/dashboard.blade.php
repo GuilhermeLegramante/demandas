@@ -84,7 +84,7 @@
 
 
 
-{{-- <div wire:ignore.self class="card card-outline card-primary collapsed-card">
+<div wire:ignore.self class="card card-outline card-primary collapsed-card">
     <div class="card-header" data-card-widget="collapse">
         <h2 class="text-center"><strong>Abril 2023</strong></h2>
         <div class="card-tools mt-n3">
@@ -292,7 +292,7 @@
             </table>
         </div>
     </div>
-</div> --}}
+</div>
 
 <div wire:ignore.self class="card">
     <div class="card-header" data-card-widget="collapse">
@@ -333,10 +333,33 @@
                             tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas
                             tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus</p>
                         <hr>
-                        <p class="text-center"><strong>ANEXOS</strong></p>
-                        <a href="">anexo_01.png</a><br>
-                        <a href="">anexo_02.png</a><br>
-                        <a href="">anexo_03.png</a><br>
+                        <p class="text-center"><strong>ANEXOS</strong></p><br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="product-img">
+                                    <a target="_blank" href="img/user.png"><img src="img/user.png" alt="Product Image" class="img-size-50">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="product-img">
+                                    <a target="_blank" href="img/previdenci.png"><img src="img/previdenci.png" alt="Product Image" class="img-size-50">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="product-img">
+                                    <a target="_blank" href="img/user.png"><img src="img/user.png" alt="Product Image" class="img-size-50">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="product-img">
+                                    <a target="_blank" href="img/previdenci.png"><img src="img/previdenci.png" alt="Product Image" class="img-size-50">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <hr>
                         <div class="info-box bg-danger">
                             <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
@@ -565,7 +588,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <div id="menu-rapido" class="fab z-index-9999999">
@@ -685,7 +707,6 @@
                     </div>
                 </div>
                 @endif
-
             </div>
 
 

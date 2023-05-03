@@ -17,12 +17,11 @@ class ArrayHandler
      * Set select options
      *
      * @param $data (collection from DB)
-     * @param array $property (livewire property)
      * @param string $value (register identifier ex. id)
      * @param string $description (register description ex. name)
      * @return array
      */
-    public static function setSelect($data, array $property, string $value, string $description)
+    public static function setSelect($data, string $value, string $description)
     {
         foreach ($data as $key => $item) {
             $property[$key]['value'] = $item->{$value};

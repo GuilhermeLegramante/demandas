@@ -32,4 +32,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/inclusao', 'DemandTypeController@form')->name('demand-type.create');
         Route::get('/{id}', 'DemandTypeController@form')->name('demand-type.edit');
     });
+
+    Route::prefix('/demanda')->group(function () {
+        Route::get('/', 'DemandController@table')->name('demand.table');
+    });
 });
