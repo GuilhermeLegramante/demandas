@@ -167,7 +167,7 @@ return [
 
     'use_route_url' => false,
 
-    'dashboard_url' => '/',
+    'dashboard_url' => '/demanda',
 
     'logout_url' => 'logout',
 
