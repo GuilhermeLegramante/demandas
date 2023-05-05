@@ -23,13 +23,15 @@ class UserTable extends Component
 
     public $headerColumns = [
         ['field' => 'id', 'label' => 'Código', 'css' => 'text-center w-15'],
-        ['field' => 'name', 'label' => 'Nome', 'css' => 'w-80'],
+        ['field' => 'name', 'label' => 'Nome', 'css' => 'w-70'],
+        ['field' => 'isAdmin', 'label' => 'Administrador', 'css' => 'text-center w-15'],
         ['field' => null, 'label' => 'Ações', 'css' => 'text-center'],
     ];
 
     public $bodyColumns = [
         ['field' => 'id', 'type' => 'string', 'css' => 'text-center'],
         ['field' => 'name', 'type' => 'string', 'css' => 'pl-12px'],
+        ['field' => 'isAdmin', 'type' => 'boolean', 'css' => 'text-center'],
     ];
 
     protected $repositoryClass = 'App\Repositories\UserRepository';

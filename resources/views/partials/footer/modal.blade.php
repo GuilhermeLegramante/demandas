@@ -8,9 +8,9 @@
         <i class="fas fa-save" aria-hidden="true"></i>
     </button>
     @if ($method == 'update')
-        <button data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Excluir o registro" data-target="#modal-delete" class="btn btn-outline-danger btn-sm" wire:key="delete" wire:loading.attr="disabled">
-            <strong> EXCLUIR &nbsp;</strong>
-            <i class="fas fa-trash-alt"></i>
-        </button>
+    <button data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Excluir o registro" data-target="#modal-delete" class="btn btn-outline-danger btn-sm" wire:key="delete" wire:loading.attr="disabled">
+        <strong> EXCLUIR &nbsp;</strong>
+        <i class="fas fa-trash-alt"></i>
+    </button>
     @endif
 </div>

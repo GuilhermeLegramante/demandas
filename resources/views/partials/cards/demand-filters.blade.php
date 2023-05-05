@@ -1,4 +1,4 @@
-<div wire:ignore.self class="card">
+<div wire:ignore.self class="card cursor-pointer">
     <div class="card-header" data-card-widget="collapse">
         <div class="row mt-1">
             <div class="col-md-4">

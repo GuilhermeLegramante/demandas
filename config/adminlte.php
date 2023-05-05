@@ -221,22 +221,29 @@ return [
             'active' => ['cliente/*'],
         ],
         [
-            'text' => 'Status',
-            'icon' => 'nav-icon fas fa-clipboard-list',
-            'url' => '/status',
-            'active' => ['status/*'],
-        ],
-        [
-            'text' => 'Tipos de Demanda',
-            'icon' => 'nav-icon fas fa-list-alt',
-            'url' => '/tipo-de-demanda',
-            'active' => ['tipo-de-demanda/*'],
-        ],
-        [
             'text' => 'Usuários',
             'icon' => 'nav-icon fas fa-users',
             'url' => '/usuario',
             'active' => ['usuario/*'],
+        ],
+        [
+            'text' => 'Parâmetros',
+            'icon' => 'nav-icon fas fa-table',
+            'submenu' => [
+                [
+                    'text' => 'Status',
+                    'icon' => 'nav-icon fas fa-clipboard-list',
+                    'url' => '/status',
+                    'active' => ['status/*'],
+                ],
+                [
+                    'text' => 'Tipos de Demanda',
+                    'icon' => 'nav-icon fas fa-list-alt',
+                    'url' => '/tipo-de-demanda',
+                    'active' => ['tipo-de-demanda/*'],
+                ],
+            ],
+
         ],
         [
             'text' => 'Sair',

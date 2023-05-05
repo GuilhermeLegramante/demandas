@@ -60,6 +60,7 @@ class UserRepository
                     'name' => $data['name'],
                     'login' => $data['login'],
                     'email' => isset($data['email']) ? $data['email'] : null,
+                    'password' => sha1($data['password']),
                     'is_admin' => $data['isAdmin'],
                     'created_at' => now(),
                 ]
@@ -86,6 +87,7 @@ class UserRepository
                     'name' => $data['name'],
                     'login' => $data['login'],
                     'email' => isset($data['email']) ? $data['email'] : null,
+                    'password' => sha1($data['password']),
                     'is_admin' => $data['isAdmin'],
                     'updated_at' => now(),
                 ]

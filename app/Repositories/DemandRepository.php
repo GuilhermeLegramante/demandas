@@ -14,7 +14,7 @@ class DemandRepository
 
     public function __construct()
     {
-        $this->baseQuery = DB::table($this->table)
+        $this->baseQuery = DB::table($this->table . ' AS demands')
             ->join('users', 'users.id', '=', 'demands.user_id')
             ->join('clients', 'clients.id', '=', 'demands.client_id')
             ->join('demand_status', 'demand_status.id', '=', 'demands.demand_status_id')
@@ -37,6 +37,8 @@ class DemandRepository
                 $this->table . '.created_at AS createdAt',
                 $this->table . '.updated_at AS updatedAt',
                 DB::raw("abs((SELECT DATEDIFF('" . now() . "', demands.publication_date))) AS daysRemaining"),
+                DB::raw("(select COUNT(`demand_files`.`id`) from demands AS demands_2 inner join `demand_files` on `demand_files`.`demand_id` = `demands_2`.`id` where demands.id = demands_2.id
+                ) as totalFiles")
             );
     }
 
@@ -61,12 +63,10 @@ class DemandRepository
             $demands->where($this->table . '.demand_type_id', $demandType);
         }
 
-        if ($startDate != null) {
-            $demands->where($this->table . '.publication_date', '>=', $startDate);
-        }
-
-        if ($finalDate != null) {
-            $demands->where($this->table . '.publication_date', '<=', $finalDate);
+        if ($startDate != null && $finalDate != null) {
+            $demands
+                ->whereDate($this->table . '.created_at', '>=', $startDate)
+                ->whereDate($this->table . '.created_at', '<=', $finalDate);
         }
 
         if ($clientId != null) {
@@ -124,21 +124,43 @@ class DemandRepository
             );
 
         if (isset($data['files'])) {
-            foreach ($data['files'] as $file) {
-                $path = '_lsmarketing/demandas';
+            $this->uploadFiles($data['files'], $demandId);
+        }
+    }
 
-                $s3Path = Storage::disk('s3')->put($path, $file);
+    private function uploadFiles($files, $demandId)
+    {
+        foreach ($files as $file) {
+            $path = '_lsmarketing/demandas';
 
-                DB::table('demand_files')
-                    ->insertGetId(
-                        [
-                            'path' => $s3Path,
-                            'user_id' => session()->get('userId'),
-                            'demand_id' => $demandId,
-                            'created_at' => now(),
-                        ]
-                    );
+            $s3Path = Storage::disk('s3')->put($path, $file);
+
+            DB::table('demand_files')
+                ->insertGetId(
+                    [
+                        'path' => $s3Path,
+                        'user_id' => session()->get('userId'),
+                        'demand_id' => $demandId,
+                        'created_at' => now(),
+                    ]
+                );
+        }
+    }
+
+    private function deleteFiles($demandId)
+    {
+        $repository = new DemandRepository();
+
+        $demand = $repository->findById($demandId);
+
+        if ($demand->totalFiles > 0) {
+            foreach ($demand->files as $file) {
+                Storage::disk('s3')->delete($file->path);
             }
+
+            DB::table('demand_files')
+                ->where('demand_id', $demandId)
+                ->delete();
         }
     }
 
@@ -171,22 +193,12 @@ class DemandRepository
                 ]
             );
 
-        if (isset($data['files'])) {
-            DB::table('demand_files')
-                ->where('demand_id', $data['recordId'])
-                ->delete();
+        if ($data['keepFiles'] == false) {
+            $this->deleteFiles($data['recordId']);
+        }
 
-            foreach ($data['files'] as $path) {
-                DB::table('demand_files')
-                    ->insertGetId(
-                        [
-                            'path' => $path,
-                            'user_id' => session()->get('userId'),
-                            'demand_id' => $data['recordId'],
-                            'created_at' => now(),
-                        ]
-                    );
-            }
+        if (isset($data['files'])) {
+            $this->uploadFiles($data['files'], $data['recordId']);
         }
     }
 
@@ -203,9 +215,7 @@ class DemandRepository
             null
         );
 
-        DB::table('demand_files')
-            ->where('demand_id', $data['recordId'])
-            ->delete();
+        $this->deleteFiles($data['recordId']);
 
         DB::table($this->table)
             ->where('id', $data['recordId'])

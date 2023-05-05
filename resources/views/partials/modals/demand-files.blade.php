@@ -12,10 +12,8 @@
                 <div class="row">
                     @foreach ($demand['files'] as $file)
                     <div class="col-sm-3">
-                        <div class="">
-                            <a target="_blank" href="{{ Storage::disk('s3')->url($file['path']) }}"><img src="{{ Storage::disk('s3')->url($file['path']) }}" alt="Anexo" class="img-fluid mb-2">
-                            </a>
-                        </div>
+                        <a target="_blank" href="{{ Storage::disk('s3')->url($file['path']) }}"><img onerror="this.onerror=null; this.src='img/no-preview.jpg'" src="{{ Storage::disk('s3')->url($file['path']) }}" alt="Anexo" class="img-fluid mb-2">
+                        </a>
                     </div>
                     @endforeach
                 </div>

@@ -1,4 +1,4 @@
-<div wire:ignore.self class="card">
+<div wire:ignore.self class="card cursor-pointer">
     <div class="card-header" data-card-widget="collapse">
         <div class="row mt-1">
             <div class="col-md-4">
@@ -33,6 +33,7 @@
                         <p class="text-center"><strong>REDAÇÃO</strong></p>
                         <p class="text-justify">{{$demand->description}}</p>
                         <hr>
+                        @if($demand->totalFiles > 0)
                         <div class="text-center">
                             <button wire:click.prevent="showFiles({{ $demand->id }})" type="submit" wire:loading.attr="disabled" class="btn btn-block btn-dark btn-sm">
                                 <strong> ANEXOS &nbsp;</strong>
@@ -40,8 +41,9 @@
                             </button>
                         </div>
                         <hr>
+                        @endif
                         @if($demand->publicationDate != '0000-00-00 00:00:00' && $demand->publicationDate != null)
-                        <div class="p-0 info-box {{ $demand->daysRemaining == 1 ? 'bg-danger' : 'bg-light' }}">
+                        <div class="p-0 info-box {{ $demand->daysRemaining <= 2 ? 'bg-danger' : 'bg-light' }}">
                             <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-number"><small>Data para Publicação</small></span>
@@ -58,9 +60,9 @@
                         @endif
                     </div>
                     <div class="card-footer text-center">
-                        <button wire:click.prevent="showForm({{ $demand->id }})" type="submit" wire:loading.attr="disabled" class="btn btn-outline-dark btn-sm">
+                        <button wire:click.prevent="setDemandId({{ $demand->id }})" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Excluir o registro" data-target="#modal-delete" class="btn btn-light btn-sm" wire:key="delete" wire:loading.attr="disabled">
                             <strong> EXCLUIR &nbsp;</strong>
-                            <i class="fas fa-trash" aria-hidden="true"></i>
+                            <i class="fas fa-trash-alt"></i>
                         </button>
                         <button wire:click.prevent="showForm({{ $demand->id }})" type="submit" wire:loading.attr="disabled" class="btn btn-dark btn-sm">
                             <strong> EDITAR &nbsp;</strong>

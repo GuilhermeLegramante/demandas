@@ -36,6 +36,12 @@
             <input class="w-100" type="checkbox" wire:model="selected.{{ $item->{$column['field']} }}" value="{{ $item->{$column['label']} }}">
             @break
 
+            @case('boolean')
+            @if ($item->{$column['field']} == 1)
+            <i class="fas fa-check"></i>
+            @endif
+            @break
+
             @case('color')
 
             <small style="background-color: {{ $item->{$column['field']} }}" class="badge badge-danger">

@@ -83,13 +83,16 @@
                     ])
                 </div>
 
-                @if($isEdition)
-                <div class="row">
-                    <div class="col-md-12">
-                        <a href="">anexo_01.png</a><br>
-                        <a href="">anexo_02.png</a><br>
-                        <a href="">anexo_03.png</a><br>
-                    </div>
+                @if($isEdition && count($storedFiles) > 0)
+                <div class="text-center">
+                    <button wire:click.prevent="showFiles({{ $demandId }})" type="submit" wire:loading.attr="disabled" class="btn btn-block btn-dark btn-sm">
+                        <strong> ANEXOS &nbsp;</strong>
+                        <i class="fas fa-paperclip" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="form-check mt-2">
+                    <input wire:model.lazy='keepFiles' type="checkbox" class="form-check-input">
+                    <label class="form-check-label">Manter os anexos salvos anteriormente</label>
                 </div>
                 @endif
             </div>

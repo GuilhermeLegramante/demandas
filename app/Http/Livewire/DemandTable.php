@@ -9,6 +9,7 @@ use App\Repositories\DemandStatusRepository;
 use App\Repositories\DemandTypeRepository;
 use App\Services\ArrayHandler;
 use App\Services\Mask;
+use Carbon\Carbon;
 use DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -39,6 +40,10 @@ class DemandTable extends Component
     public $demandStatusId;
     public $files;
     public $demand = [];
+    public $demandId;
+    public $totalFiles;
+    public $storedFiles = [];
+    public $keepFiles = true;
 
     public $statusColor = '#2d6a2d';
 
@@ -75,11 +80,16 @@ class DemandTable extends Component
 
         $repository = new ClientRepository();
         $this->clientsToFilter = ArrayHandler::setSelect($repository->allSimplified()->sortBy('name'), 'id', 'name');
+
+        $now = Carbon::now();
+        $this->filterStartDate = $now->startOfWeek()->format('Y-m-d');
+        $this->filterFinalDate = $now->endOfWeek()->format('Y-m-d');
     }
 
     public function showForm($demandId = null)
     {
         if (isset($demandId)) {
+            $this->demandId = $demandId;
             $this->setFields();
         } else {
             $this->resetFields();
@@ -92,19 +102,27 @@ class DemandTable extends Component
     {
         $this->isEdition = true;
 
-        $this->title = 'Título do Post';
+        $repository = new DemandRepository();
 
-        $this->subtitle = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis';
+        $demand = $repository->findById($this->demandId);
 
-        $this->description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus. Vestibulum convallis elit non elit iaculis, ac egestas tortor malesuada. Suspendisse id augue feugiat, tristique sem non, euismod risus';
+        $this->title = $demand->title;
 
-        $this->clientId = 1;
+        $this->subtitle = $demand->subtitle;
 
-        $this->publicationDate = '2022-05-02 10:00:00';
+        $this->description = $demand->description;
 
-        $this->demandTypeId = 1;
+        $this->clientId = $demand->clientId;
 
-        $this->demandStatusId = 1;
+        $this->publicationDate = $demand->publicationDate;
+
+        $this->demandTypeId = $demand->demandTypeId;
+
+        $this->demandStatusId = $demand->demandStatusId;
+
+        $this->totalFiles = $demand->totalFiles;
+
+        $this->storedFiles = ArrayHandler::jsonDecodeEncode($demand->files);
     }
 
     private function resetFields()
@@ -118,13 +136,18 @@ class DemandTable extends Component
     public function confirmActionFromModal()
     {
         if ($this->isEdition) {
-            dd('update');
+            $this->update();
         } else {
             $this->store();
         }
     }
 
     private function customValidate()
+    {
+        return true;
+    }
+
+    private function customDeleteValidate()
     {
         return true;
     }
@@ -168,14 +191,92 @@ class DemandTable extends Component
         }
     }
 
+    private function update()
+    {
+        $this->validate();
+
+        try {
+            DB::beginTransaction();
+
+            $this->customValidate();
+
+            $repository = new DemandRepository();
+
+            $data = [
+                'recordId' => $this->demandId,
+                'title' => Mask::normalizeString($this->title),
+                'subtitle' => Mask::normalizeString($this->subtitle),
+                'description' => Mask::normalizeString($this->description),
+                'clientId' => $this->clientId,
+                'publicationDate' => $this->publicationDate,
+                'demandStatusId' => $this->demandStatusId,
+                'demandTypeId' => $this->demandTypeId,
+                'files' => $this->files,
+                'keepFiles' => $this->keepFiles,
+            ];
+
+            $repository->update($data);
+
+            session()->flash('success', 'Registro editado com sucesso');
+
+            DB::commit();
+
+            return redirect()->route('demand.table');
+        } catch (\Exception $error) {
+            DB::rollback();
+
+            session()->flash('error-details', $error->getMessage());
+
+            isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
+                session()->flash('error', $error->getMessage());
+        }
+    }
+
     public function showFiles($demandId)
     {
         $repository = new DemandRepository();
 
         $this->demand = ArrayHandler::jsonDecodeEncode($repository->findById($demandId));
 
-
         $this->emit('showDemandFilesModal');
+    }
+
+    public function showModalDelete()
+    {
+        $this->emit('delete');
+    }
+
+    public function setDemandId($id)
+    {
+        $this->demandId = $id;
+    }
+
+    public function destroy()
+    {
+        try {
+            DB::beginTransaction();
+
+            $this->customDeleteValidate();
+
+            $repository = new DemandRepository();
+
+            $repository->delete([
+                'recordId' => $this->demandId,
+            ]);
+
+            session()->flash('success', 'Registro excluído com sucesso');
+
+            DB::commit();
+
+            return redirect()->route('demand.table');
+        } catch (\Exception $error) {
+            DB::rollback();
+
+            $this->emit('close');
+
+            isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
+                session()->flash('error', $error->getMessage());
+        }
     }
 
     public function render()
