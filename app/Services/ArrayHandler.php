@@ -23,6 +23,8 @@ class ArrayHandler
      */
     public static function setSelect($data, string $value, string $description)
     {
+        $property = [];
+
         foreach ($data as $key => $item) {
             $property[$key]['value'] = $item->{$value};
             $property[$key]['description'] = $item->{$description};
