@@ -50,7 +50,7 @@ class UserForm extends Component
             'login' => ['required'],
             'password' => ['required', 'confirmed'],
             'isAdmin' => ['required'],
-            'email' => ['email'],
+            'email' => ['email', 'nullable'],
         ];
     }
 
