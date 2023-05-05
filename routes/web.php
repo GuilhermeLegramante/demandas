@@ -8,7 +8,7 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::get('/sair', 'AuthController@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
-    // Route::get('/', 'MainController@dashboard')->name('dashboard');
+    Route::get('/', 'MainController@dashboard')->name('dashboard');
 
     Route::prefix('/usuario')->group(function () {
         Route::get('/', 'UserController@table')->name('user.table');
