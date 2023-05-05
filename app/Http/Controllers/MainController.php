@@ -10,11 +10,6 @@ class MainController extends Controller
 {
     public function dashboard()
     {
-        return view('parent.dashboard');
-    }
-
-    public function calendar()
-    {
-        return view('parent.calendar');
+        return view('parent.demand-table');
     }
 }
