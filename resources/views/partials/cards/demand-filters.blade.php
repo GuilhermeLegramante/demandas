@@ -14,7 +14,7 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <div class="form-group">
                     <label>Status</label>
                     <div class="input-group">
@@ -46,13 +46,13 @@
             ])
 
             @include('partials.inputs.date', [
-            'columnSize' => 3,
+            'columnSize' => 2,
             'label' => 'Data Inicial',
             'model' => 'filterStartDate',
             ])
 
             @include('partials.inputs.date', [
-            'columnSize' => 3,
+            'columnSize' => 2,
             'label' => 'Data Final',
             'model' => 'filterFinalDate',
             ])
