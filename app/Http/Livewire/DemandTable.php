@@ -164,9 +164,9 @@ class DemandTable extends Component
             $repository = new DemandRepository();
 
             $data = [
-                'title' => Mask::normalizeString($this->title),
-                'subtitle' => Mask::normalizeString($this->subtitle),
-                'description' => Mask::normalizeString($this->description),
+                'title' => $this->title,
+                'subtitle' => $this->subtitle,
+                'description' => $this->description,
                 'clientId' => $this->clientId,
                 'publicationDate' => $this->publicationDate,
                 'demandStatusId' => $this->demandStatusId,
