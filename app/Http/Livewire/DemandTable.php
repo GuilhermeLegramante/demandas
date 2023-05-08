@@ -319,6 +319,10 @@ class DemandTable extends Component
 
     public function render()
     {
+        if ($this->sortBy == '') {
+            $this->sortBy = 'id';
+        }
+
         $repository = new DemandRepository();
 
         $demands = $repository->all(
@@ -336,6 +340,7 @@ class DemandTable extends Component
         if ($demands->total() == $demands->lastItem()) {
             $this->emit('scrollTop');
         }
+
 
         return view('livewire.demand-table', compact('demands'));
     }
