@@ -14,13 +14,30 @@
     </div>
     <div class="card-body">
         <div class="row">
-            @include('partials.inputs.select', [
-            'columnSize' => 3,
-            'label' => 'Status',
-            'model' => 'filterStatusId',
-            'options' => $statusToFilter,
-            ])
-
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="input-group">
+                        <h3 wire:click="$emit('showMultipleStatusModal')" class="cursor-pointer form-control input-custom  {{ $errors->has('filter.selectedStatus') ? 'is-invalid' : '' }}">
+                            @isset($filter['statusDescriptions'])
+                            @foreach ($filter['statusDescriptions'] as $status)
+                            <small class="badge mt-1">{{ $status }}</small>
+                            @endforeach
+                            @endisset
+                        </h3>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-primary" title="Pesquisar" wire:click="$emit('showMultipleLocaleModal')">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                    @error('filter.selectedStatus')
+                    <h3 class="text-danger">
+                        <strong>{{ $message }}</strong>
+                    </h3>
+                    @enderror
+                </div>
+            </div>
             @include('partials.inputs.select', [
             'columnSize' => 3,
             'label' => 'Tipo de Demanda',
@@ -86,5 +103,6 @@
             ],
             ])
         </div>
+
     </div>
 </div>

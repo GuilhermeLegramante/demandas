@@ -50,6 +50,7 @@
             {{-- {{ $item->{$column['field']} }} --}}
             @break
             @endswitch
+
         </td>
         @endforeach
         @if (isset($modalActionButtons))

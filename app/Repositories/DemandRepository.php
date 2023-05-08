@@ -57,7 +57,7 @@ class DemandRepository
         $demands = $this->baseQuery;
 
         if ($status != null) {
-            $demands->where($this->table . '.demand_status_id', $status);
+            $demands->whereIn($this->table . '.demand_status_id', $status);
         }
 
         if ($demandType != null) {

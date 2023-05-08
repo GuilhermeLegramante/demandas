@@ -2,14 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Traits\SelectMultipleStatus;
 use App\Http\Livewire\Traits\WithValidation;
 use App\Repositories\ClientRepository;
 use App\Repositories\DemandRepository;
 use App\Repositories\DemandStatusRepository;
 use App\Repositories\DemandTypeRepository;
 use App\Services\ArrayHandler;
-use App\Services\Mask;
-use Carbon\Carbon;
 use DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -17,7 +16,7 @@ use Livewire\WithPagination;
 
 class DemandTable extends Component
 {
-    use WithFileUploads, WithValidation, WithPagination;
+    use WithFileUploads, WithValidation, WithPagination, SelectMultipleStatus;
 
     public $pageTitle = 'Demandas';
     public $icon = 'fas fa-list';
@@ -25,7 +24,7 @@ class DemandTable extends Component
     public $filterStartDate;
     public $filterFinalDate;
     public $filterStatusId;
-    public $statusToFilter = [];
+    public $filterStatus = [];
     public $filterDemandTypeId;
     public $demandTypesToFilter = [];
     public $filterText;
@@ -59,6 +58,16 @@ class DemandTable extends Component
     public $perPage = '30';
 
     protected $paginationTheme = 'bootstrap';
+
+    protected $listeners = [
+        'selectMultipleStatus',
+    ];
+
+    public $filter = [
+        'statusToSelect' => [],
+        'selectedStatus' => [],
+        'statusDescriptions' => [],
+    ];
 
     protected $validationAttributes = [
         'title' => 'Título',
@@ -338,7 +347,7 @@ class DemandTable extends Component
         $repository = new DemandRepository();
 
         $demands = $repository->all(
-            $this->filterStatusId,
+            $this->filter['selectedStatus'],
             $this->filterDemandTypeId,
             $this->filterStartDate,
             $this->filterFinalDate,
@@ -354,6 +363,8 @@ class DemandTable extends Component
         }
 
         $favorites = $repository->favorites();
+
+        // dd($this->filter['selectedStatus']);
 
         return view('livewire.demand-table', compact('demands', 'favorites'));
     }

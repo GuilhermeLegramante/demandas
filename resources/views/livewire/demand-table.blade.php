@@ -1,5 +1,7 @@
 <div>
     @include('pages.demand-table')
+
+    @livewire('status-select-multiple')
 </div>
 @push('scripts')
 <script>
@@ -27,6 +29,14 @@
 
     window.livewire.on('scrollTop', () => {
         $(window).scrollTop(0);
+    });
+
+    window.livewire.on('showMultipleStatusModal', () => {
+        $('#modal-select-multiple-status').modal('show');
+    });
+
+    window.livewire.on('closeMultipleStatusModal', () => {
+        $('#modal-select-multiple-status').modal('hide');
     });
 
 </script>
