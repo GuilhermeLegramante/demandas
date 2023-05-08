@@ -52,16 +52,27 @@
 
         <div class="row">
             @include('partials.inputs.select', [
-            'columnSize' => 3,
+            'columnSize' => 12,
+            'label' => 'Cliente',
+            'model' => 'filterClientId',
+            'options' => $clientsToFilter,
+            ])
+        </div>
+        <div class="row">
+            @include('partials.inputs.select', [
+            'columnSize' => 6,
             'label' => 'Ordernar por',
             'model' => 'sortBy',
             'options' => $sortByList,
             ])
             @include('partials.inputs.select', [
-            'columnSize' => 9,
-            'label' => 'Cliente',
-            'model' => 'filterClientId',
-            'options' => $clientsToFilter,
+            'columnSize' => 6,
+            'label' => 'Ordem',
+            'model' => 'sortDirection',
+            'options' => [
+            ['value'=> 'asc', 'description' => 'Ascendente'],
+            ['value'=> 'desc', 'description' => 'Descendente'],
+            ],
             ])
         </div>
     </div>
