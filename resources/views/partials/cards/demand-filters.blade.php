@@ -61,7 +61,7 @@
         <div class="row">
             @include('partials.inputs.select', [
             'columnSize' => 4,
-            'label' => 'Ordernar por',
+            'label' => 'Ordenar por',
             'model' => 'sortBy',
             'options' => $sortByList,
             ])
