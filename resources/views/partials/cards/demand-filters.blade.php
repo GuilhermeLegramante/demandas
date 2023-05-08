@@ -60,18 +60,29 @@
         </div>
         <div class="row">
             @include('partials.inputs.select', [
-            'columnSize' => 6,
+            'columnSize' => 4,
             'label' => 'Ordernar por',
             'model' => 'sortBy',
             'options' => $sortByList,
             ])
             @include('partials.inputs.select', [
-            'columnSize' => 6,
+            'columnSize' => 4,
             'label' => 'Ordem',
             'model' => 'sortDirection',
             'options' => [
             ['value'=> 'asc', 'description' => 'Ascendente'],
             ['value'=> 'desc', 'description' => 'Descendente'],
+            ],
+            ])
+            @include('partials.inputs.select', [
+            'columnSize' => 4,
+            'label' => 'Itens por Página',
+            'model' => 'perPage',
+            'options' => [
+            ['value'=> '10', 'description' => '10'],
+            ['value'=> '30', 'description' => '30'],
+            ['value'=> '50', 'description' => '50'],
+            ['value'=> '100', 'description' => '100'],
             ],
             ])
         </div>
