@@ -19,6 +19,12 @@
         $('#modal-demand-files').modal('hide');
     });
 
+    window.livewire.on('close', () => {
+        $('#modal-demand-files').modal('hide');
+        $('#modal-demand-form').modal('hide');
+        $('#modal-delete').modal('hide');
+    });
+
     window.livewire.on('scrollTop', () => {
         $(window).scrollTop(0);
     });

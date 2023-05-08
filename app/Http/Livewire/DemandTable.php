@@ -218,7 +218,7 @@ class DemandTable extends Component
 
             DB::commit();
 
-            return redirect()->route('demand.table');
+            $this->emit('close');
         } catch (\Exception $error) {
             DB::rollback();
 
@@ -259,7 +259,7 @@ class DemandTable extends Component
 
             DB::commit();
 
-            return redirect()->route('demand.table');
+            $this->emit('close');
         } catch (\Exception $error) {
             DB::rollback();
 
@@ -306,7 +306,9 @@ class DemandTable extends Component
 
             DB::commit();
 
-            return redirect()->route('demand.table');
+            $this->emit('close');
+
+            // return redirect()->route('demand.table');
         } catch (\Exception $error) {
             DB::rollback();
 
@@ -340,7 +342,6 @@ class DemandTable extends Component
         if ($demands->total() == $demands->lastItem()) {
             $this->emit('scrollTop');
         }
-
 
         return view('livewire.demand-table', compact('demands'));
     }
