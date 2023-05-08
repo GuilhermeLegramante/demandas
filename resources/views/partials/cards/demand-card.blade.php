@@ -2,7 +2,11 @@
     <div data-card-widget="collapse" style="border-top: 3px solid {{ $demand->demandStatusColor }}; cursor: pointer; " class="card-header">
         <h3 class="card-title"><strong>{{ $demand->clientName }}</strong></h3><br>
         <p><strong>{{ $demand->title }}</strong></p>
-        <p><small>{{ date('d/m/Y \\à\\s H:i', strtotime($demand->createdAt)) }} por {{ $demand->username }}</small></p>
+        @if($demand->publicationDate != '0000-00-00 00:00:00' && $demand->publicationDate != null)
+        <p style="color: {{ $demand->daysRemaining <= 2 ? 'red' : '' }};"><small>Publicar em {{ date('d/m \\à\\s H:i', strtotime($demand->publicationDate)) }} restando {{ $demand->daysRemaining }} dia(s) </small></p>
+        @endif
+
+        <p class="mt-1"><small>{{ date('d/m/Y \\à\\s H:i', strtotime($demand->createdAt)) }} por {{ $demand->username }}</small></p>
 
         <div class="card-tools mt-2">
             <span style="background-color: {{ $demand->demandStatusColor }}!important;" class="right badge badge-danger mt-2">{{ $demand->demandStatusDescription }}</span>
