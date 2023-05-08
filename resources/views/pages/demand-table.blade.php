@@ -7,6 +7,9 @@
 @section('page_content')
 @include('partials.cards.demand-filters')
 
+@if(count($favorites) > 0)
+@include('partials.cards.demand-favorites')
+@endif
 @include('partials.cards.demand-list')
 
 @include('partials.modals.demand-form')

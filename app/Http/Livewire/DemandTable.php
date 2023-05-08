@@ -319,6 +319,16 @@ class DemandTable extends Component
         }
     }
 
+    public function setFavorite($demandId, $isFavorite)
+    {
+        $repository = new DemandRepository();
+        if ($isFavorite == '0') {
+            $repository->setFavorite($demandId);
+        } else {
+            $repository->removeFavorite($demandId);
+        }
+    }
+
     public function render()
     {
         if ($this->sortBy == '') {
@@ -343,6 +353,8 @@ class DemandTable extends Component
             $this->emit('scrollTop');
         }
 
-        return view('livewire.demand-table', compact('demands'));
+        $favorites = $repository->favorites();
+
+        return view('livewire.demand-table', compact('demands', 'favorites'));
     }
 }

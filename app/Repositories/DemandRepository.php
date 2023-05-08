@@ -38,7 +38,8 @@ class DemandRepository
                 $this->table . '.updated_at AS updatedAt',
                 DB::raw("abs((SELECT DATEDIFF('" . now() . "', demands.publication_date))) AS daysRemaining"),
                 DB::raw("(select COUNT(`demand_files`.`id`) from demands AS demands_2 inner join `demand_files` on `demand_files`.`demand_id` = `demands_2`.`id` where demands.id = demands_2.id
-                ) as totalFiles")
+                ) as totalFiles"),
+                DB::raw("(select ifnull((select 1 as isFavorite from demands as demands_3 inner join favorites on demands_3.id = favorites.demand_id where demands_3.id = demands.id), 0)) as isFavorite")
             );
     }
 
@@ -90,6 +91,41 @@ class DemandRepository
         return $demands
             ->orderBy($sortBy, $sortDirection)
             ->paginate($perPage);
+    }
+
+    public function favorites()
+    {
+        return DB::table($this->table . ' AS demands')
+            ->join('users', 'users.id', '=', 'demands.user_id')
+            ->join('clients', 'clients.id', '=', 'demands.client_id')
+            ->join('demand_status', 'demand_status.id', '=', 'demands.demand_status_id')
+            ->join('demand_types', 'demand_types.id', '=', 'demands.demand_type_id')
+            ->join('favorites', 'favorites.demand_id', '=', 'demands.id')
+            ->select(
+                $this->table . '.id AS id',
+                $this->table . '.title AS title',
+                $this->table . '.subtitle AS subtitle',
+                $this->table . '.description AS description',
+                $this->table . '.publication_date AS publicationDate',
+                $this->table . '.user_id AS userId',
+                'users.name AS username',
+                $this->table . '.client_id AS clientId',
+                'clients.name AS clientName',
+                $this->table . '.demand_status_id AS demandStatusId',
+                'demand_status.description AS demandStatusDescription',
+                'demand_status.color AS demandStatusColor',
+                $this->table . '.demand_type_id AS demandTypeId',
+                'demand_types.description AS demandTypeDescription',
+                $this->table . '.created_at AS createdAt',
+                $this->table . '.updated_at AS updatedAt',
+                DB::raw("abs((SELECT DATEDIFF('" . now() . "', demands.publication_date))) AS daysRemaining"),
+                DB::raw("(select COUNT(`demand_files`.`id`) from demands AS demands_2 inner join `demand_files` on `demand_files`.`demand_id` = `demands_2`.`id` where demands.id = demands_2.id
+                ) as totalFiles"),
+                DB::raw("(select ifnull((select 1 as isFavorite from demands as demands_3 inner join favorites on demands_3.id = favorites.demand_id where demands_3.id = demands.id), 0)) as isFavorite")
+            )
+            ->where('favorites.user_id', session()->get('userId'))
+            ->groupBy('demands.id')
+            ->get();
     }
 
     public function allSimplified()
@@ -240,5 +276,23 @@ class DemandRepository
         $demand->files = $files;
 
         return $demand;
+    }
+
+    public function setFavorite($demandId)
+    {
+        DB::table('favorites')
+            ->insert([
+                'user_id' => session()->get('userId'),
+                'demand_id' => $demandId,
+                'created_at' => now(),
+            ]);
+    }
+
+    public function removeFavorite($demandId)
+    {
+        DB::table('favorites')
+            ->where('demand_id', $demandId)
+            ->where('user_id', session()->get('userId'))
+            ->delete();
     }
 }
