@@ -19,5 +19,9 @@
         $('#modal-demand-files').modal('hide');
     });
 
+    window.livewire.on('scrollTop', () => {
+        $(window).scrollTop(0);
+    });
+
 </script>
 @endpush
