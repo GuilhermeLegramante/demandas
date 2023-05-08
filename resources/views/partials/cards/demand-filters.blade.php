@@ -52,7 +52,13 @@
 
         <div class="row">
             @include('partials.inputs.select', [
-            'columnSize' => 12,
+            'columnSize' => 3,
+            'label' => 'Ordernar por',
+            'model' => 'sortBy',
+            'options' => $sortByList,
+            ])
+            @include('partials.inputs.select', [
+            'columnSize' => 9,
             'label' => 'Cliente',
             'model' => 'filterClientId',
             'options' => $clientsToFilter,

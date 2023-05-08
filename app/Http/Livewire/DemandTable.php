@@ -13,10 +13,11 @@ use Carbon\Carbon;
 use DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class DemandTable extends Component
 {
-    use WithFileUploads, WithValidation;
+    use WithFileUploads, WithValidation, WithPagination;
 
     public $pageTitle = 'Demandas';
     public $icon = 'fas fa-list';
@@ -45,9 +46,19 @@ class DemandTable extends Component
     public $storedFiles = [];
     public $keepFiles = true;
 
+    public $sortByList = [];
+
     public $statusColor = '#2d6a2d';
 
     public $isEdition = false;
+
+    public $sortBy = 'id';
+
+    public $sortDirection = 'asc';
+
+    public $perPage = '30';
+
+    protected $paginationTheme = 'bootstrap';
 
     protected $validationAttributes = [
         'title' => 'Título',
@@ -70,6 +81,23 @@ class DemandTable extends Component
         ];
     }
 
+    public function sortBy($field)
+    {
+        $this->sortDirection == 'asc' ? $this->sortDirection = 'desc' : $this->sortDirection = 'asc';
+        return $this->sortBy = $field;
+    }
+
+    public function load($value)
+    {
+        if ($this->perPage >= 10) {
+            $this->perPage += $value;
+
+            $this->perPage == 0 ? $this->perPage = 30 : '';
+
+            $this->perPage >= 0 ? $this->perPage = $this->perPage : $this->perPage = 30;
+        }
+    }
+
     public function mount()
     {
         $repository = new DemandStatusRepository();
@@ -81,9 +109,19 @@ class DemandTable extends Component
         $repository = new ClientRepository();
         $this->clientsToFilter = ArrayHandler::setSelect($repository->allSimplified()->sortBy('name'), 'id', 'name');
 
-        $now = Carbon::now();
-        $this->filterStartDate = $now->startOfWeek()->format('Y-m-d');
-        $this->filterFinalDate = $now->endOfWeek()->format('Y-m-d');
+        // $now = Carbon::now();
+        // $this->filterStartDate = $now->startOfWeek()->format('Y-m-d');
+        // $this->filterFinalDate = $now->endOfWeek()->format('Y-m-d');
+
+        $this->sortByList = [
+            ['value' => 'clientName', 'description' => 'Cliente'],
+            ['value' => 'title', 'description' => 'Título'],
+            ['value' => 'subtitle', 'description' => 'Info na arte'],
+            ['value' => 'description', 'description' => 'Redação'],
+            ['value' => 'username', 'description' => 'Usuário'],
+            ['value' => 'createdAt', 'description' => 'Data de Criação'],
+            ['value' => 'publicationDate', 'description' => 'Data de Publicação'],
+        ];
     }
 
     public function showForm($demandId = null)
@@ -290,7 +328,14 @@ class DemandTable extends Component
             $this->filterFinalDate,
             $this->filterText,
             $this->filterClientId,
+            $this->sortBy,
+            $this->sortDirection,
+            $this->perPage,
         );
+
+        if ($demands->total() == $demands->lastItem()) {
+            $this->emit('scrollTop');
+        }
 
         return view('livewire.demand-table', compact('demands'));
     }
