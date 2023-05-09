@@ -14,10 +14,10 @@
     </div>
     <div class="card-body">
         <p class="text-center"><strong>INFORMAÇÕES NA ARTE</strong></p>
-        <p class="text-justify">{{$demand->subtitle}}</p>
+        <p class="text-justify">{{ $demand->subtitle  }}</p>
         <hr>
         <p class="text-center"><strong>REDAÇÃO</strong></p>
-        <p class="text-justify">{{$demand->description}}</p>
+        <p class="text-justify">{{ $demand->description }}</p>
         <hr>
         @if($demand->totalFiles > 0)
         <div class="text-center">
