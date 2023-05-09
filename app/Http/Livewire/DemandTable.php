@@ -59,6 +59,8 @@ class DemandTable extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public $fileIteration = 1;
+
     protected $listeners = [
         'selectMultipleStatus',
     ];
@@ -170,13 +172,17 @@ class DemandTable extends Component
         $this->totalFiles = $demand->totalFiles;
 
         $this->storedFiles = ArrayHandler::jsonDecodeEncode($demand->files);
+
+        $this->files = null;
+
+        $this->fileIteration++;
     }
 
     private function resetFields()
     {
         $this->reset([
             'isEdition', 'title', 'subtitle', 'description',
-            'clientId', 'publicationDate', 'demandTypeId', 'demandStatusId'
+            'clientId', 'publicationDate', 'demandTypeId', 'demandStatusId', 'files',
         ]);
     }
 
