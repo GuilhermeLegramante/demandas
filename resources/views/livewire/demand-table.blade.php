@@ -2,6 +2,7 @@
     @include('pages.demand-table')
 
     @livewire('status-select-multiple')
+
 </div>
 @push('scripts')
 <script>
