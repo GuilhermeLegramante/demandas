@@ -15,6 +15,7 @@
     <div class="card-body">
         <p class="text-center"><strong>INFORMAÇÕES NA ARTE</strong></p>
         <p class="text-justify">{{ $demand->subtitle  }}</p>
+
         <hr>
         <p class="text-center"><strong>REDAÇÃO</strong></p>
         <p class="text-justify">{{ $demand->description }}</p>
