@@ -222,7 +222,7 @@ class DemandRepository
                     'description' => $data['description'],
                     'publication_date' => isset($data['publicationDate']) ? $data['publicationDate'] : null,
                     'client_id' => $data['clientId'],
-                    'user_id' => session()->get('userId'),
+                    // 'user_id' => session()->get('userId'),
                     'demand_status_id' => $data['demandStatusId'],
                     'demand_type_id' => $data['demandTypeId'],
                     'updated_at' => now(),
