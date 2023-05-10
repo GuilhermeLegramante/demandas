@@ -15,11 +15,11 @@
     <div class="card-body">
         <div class="row">
             @foreach ($demands as $demand)
-            @if(!$demand->isFavorite)
+            {{-- @if(!$demand->isFavorite)  --}}
             <div class="col-md-3">
                 @include('partials.cards.demand-card')
             </div>
-            @endif
+            {{-- @endif  --}}
             @endforeach
         </div>
 
