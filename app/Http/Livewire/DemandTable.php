@@ -125,6 +125,7 @@ class DemandTable extends Component
         // $this->filterFinalDate = $now->endOfWeek()->format('Y-m-d');
 
         $this->sortByList = [
+            ['value' => 'demandStatusId', 'description' => 'Status'],
             ['value' => 'clientName', 'description' => 'Cliente'],
             ['value' => 'title', 'description' => 'Título'],
             ['value' => 'subtitle', 'description' => 'Info na arte'],
