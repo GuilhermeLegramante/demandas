@@ -373,6 +373,8 @@ class DemandTable extends Component
 
         $favorites = $repository->favorites();
 
+        // dd($demands);
+
         return view('livewire.demand-table', compact('demands', 'favorites'));
     }
 }

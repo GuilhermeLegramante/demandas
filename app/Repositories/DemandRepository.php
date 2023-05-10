@@ -39,7 +39,7 @@ class DemandRepository
                 DB::raw("abs((SELECT DATEDIFF('" . now() . "', demands.publication_date))) AS daysRemaining"),
                 DB::raw("(select COUNT(`demand_files`.`id`) from demands AS demands_2 inner join `demand_files` on `demand_files`.`demand_id` = `demands_2`.`id` where demands.id = demands_2.id
                 ) as totalFiles"),
-                DB::raw("(select ifnull((select 1 as isFavorite from demands as demands_3 inner join favorites on demands_3.id = favorites.demand_id where demands_3.id = demands.id), 0)) as isFavorite")
+                DB::raw("(select ifnull((select 1 as isFavorite from demands as demands_3 inner join favorites on demands_3.id = favorites.demand_id where demands_3.id = demands.id AND favorites.user_id = " . session()->get('userId') . "), 0)) as isFavorite")
             );
     }
 
@@ -121,7 +121,7 @@ class DemandRepository
                 DB::raw("abs((SELECT DATEDIFF('" . now() . "', demands.publication_date))) AS daysRemaining"),
                 DB::raw("(select COUNT(`demand_files`.`id`) from demands AS demands_2 inner join `demand_files` on `demand_files`.`demand_id` = `demands_2`.`id` where demands.id = demands_2.id
                 ) as totalFiles"),
-                DB::raw("(select ifnull((select 1 as isFavorite from demands as demands_3 inner join favorites on demands_3.id = favorites.demand_id where demands_3.id = demands.id), 0)) as isFavorite")
+                DB::raw("(select ifnull((select 1 as isFavorite from demands as demands_3 inner join favorites on demands_3.id = favorites.demand_id where demands_3.id = demands.id AND favorites.user_id = " . session()->get('userId') . "), 0)) as isFavorite")
             )
             ->where('favorites.user_id', session()->get('userId'))
             ->groupBy('demands.id')
