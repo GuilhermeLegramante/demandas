@@ -59,7 +59,7 @@ class DemandTable extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $fileIteration = 1;
+    public $iteration = 1;
 
     protected $listeners = [
         'selectMultipleStatus',
@@ -175,7 +175,7 @@ class DemandTable extends Component
 
         $this->files = null;
 
-        $this->fileIteration++;
+        $this->iteration++;
     }
 
     private function resetFields()
