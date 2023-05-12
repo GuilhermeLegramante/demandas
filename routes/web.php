@@ -37,4 +37,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('/demanda')->group(function () {
         Route::get('/', 'DemandController@table')->name('demand.table');
     });
+
+    Route::prefix('/setor')->group(function () {
+        Route::get('/', 'DepartmentController@table')->name('department.table');
+        Route::get('/inclusao', 'DepartmentController@form')->name('department.create');
+        Route::get('/{id}', 'DepartmentController@form')->name('department.edit');
+    });
 });
