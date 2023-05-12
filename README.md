@@ -14,4 +14,7 @@
     - Botões de ação minimalistas no card de demanda
     - Deletando um anexo por vez
     - Mantendo o nome original do arquivo
+- 1.2.0 (12/05/2023) :
+    - Cadastro de Setores
+    - Lista de demandas filtradas pelos setores do usuário
 <hr>
