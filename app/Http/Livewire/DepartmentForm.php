@@ -5,13 +5,16 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Http\Livewire\Traits\WithForm;
 use App;
+use App\Http\Livewire\Traits\SelectMultipleStatus;
 use App\Http\Livewire\Traits\SelectMultipleUser;
+use App\Repositories\DemandStatusRepository;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\UserRepository;
+use App\Services\ArrayHandler;
 
 class DepartmentForm extends Component
 {
-    use WithForm, SelectMultipleUser;
+    use WithForm, SelectMultipleUser, SelectMultipleStatus;
 
     public $pageTitle = 'Setor';
     public $icon = 'fas fa-building';
@@ -24,12 +27,14 @@ class DepartmentForm extends Component
 
     public $name;
     public $note;
+    public $status;
 
     protected $inputs = [
         ['field' => 'recordId', 'edit' => true],
         ['field' => 'name', 'edit' => true, 'type' => 'string'],
         ['field' => 'note', 'edit' => true, 'type' => 'string'],
         ['field' => 'users', 'edit' => true],
+        ['field' => 'status', 'edit' => true],
     ];
 
     protected $validationAttributes = [
@@ -39,12 +44,16 @@ class DepartmentForm extends Component
 
     protected $listeners = [
         'selectMultipleUser',
+        'selectMultipleStatus',
     ];
 
     public $filter = [
         'usersToSelect' => [],
         'selectedUsers' => [],
         'usersDescriptions' => [],
+        'statusToSelect' => [],
+        'selectedStatus' => [],
+        'statusDescriptions' => [],
     ];
 
     public function rules()
@@ -58,6 +67,9 @@ class DepartmentForm extends Component
     {
         $repository = new UserRepository();
         $users = $repository->allSimplified()->toArray();
+
+        $repository = new DemandStatusRepository();
+        $this->statusToFilter = ArrayHandler::setSelect($repository->allSimplified(), 'id', 'description');
 
         foreach ($users as $value) {
             $user['value'] = $value->id;
@@ -96,11 +108,20 @@ class DepartmentForm extends Component
             array_push($this->filter['usersDescriptions'], $user->name);
             array_push($this->filter['selectedUsers'], $user->userId);
         }
+
+        $status = $repository->status($data->id);
+
+        foreach ($status as $value) {
+            array_push($this->filter['statusDescriptions'], $value->description);
+            array_push($this->filter['selectedStatus'], $value->statusId);
+        }
     }
 
     public function customValidate()
     {
         $this->users = $this->filter['selectedUsers'];
+
+        $this->status = $this->filter['selectedStatus'];
 
         return true;
     }

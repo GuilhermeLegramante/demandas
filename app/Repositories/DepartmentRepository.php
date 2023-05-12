@@ -79,6 +79,19 @@ class DepartmentRepository
             }
         }
 
+        if (isset($data['status'])) {
+            foreach ($data['status'] as $statusId) {
+                DB::table('department_status')
+                    ->insertGetId(
+                        [
+                            'status_id' => $statusId,
+                            'department_id' => $departmentId,
+                            'created_at' => now(),
+                        ]
+                    );
+            }
+        }
+
         return $departmentId;
     }
 
@@ -122,6 +135,23 @@ class DepartmentRepository
                     );
             }
         }
+
+        if (isset($data['status'])) {
+            DB::table('department_status')
+                ->where('department_id', $data['recordId'])
+                ->delete();
+
+            foreach ($data['status'] as $statusId) {
+                DB::table('department_status')
+                    ->insertGetId(
+                        [
+                            'status_id' => $statusId,
+                            'department_id' => $data['recordId'],
+                            'created_at' => now(),
+                        ]
+                    );
+            }
+        }
     }
 
     public function delete($data)
@@ -141,6 +171,10 @@ class DepartmentRepository
             ->where('department_id', $data['recordId'])
             ->delete();
 
+        DB::table('department_status')
+            ->where('department_id', $data['recordId'])
+            ->delete();
+
         DB::table($this->table)
             ->where('id', $data['recordId'])
             ->delete();
@@ -156,6 +190,19 @@ class DepartmentRepository
                 'users.name AS name',
             )
             ->where('department_users.department_id', $departmentId)
+            ->get();
+    }
+
+    public function status($departmentId)
+    {
+        return DB::table('department_status')
+            ->join('demand_status', 'demand_status.id', '=', 'department_status.status_id')
+            ->select(
+                'department_status.status_id AS statusId',
+                'department_status.department_id AS departmentId',
+                'demand_status.description AS description',
+            )
+            ->where('department_status.department_id', $departmentId)
             ->get();
     }
 
