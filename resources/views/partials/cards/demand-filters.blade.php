@@ -47,13 +47,13 @@
 
             @include('partials.inputs.date', [
             'columnSize' => 2,
-            'label' => 'Data Inicial',
+            'label' => 'De',
             'model' => 'filterStartDate',
             ])
 
             @include('partials.inputs.date', [
             'columnSize' => 2,
-            'label' => 'Data Final',
+            'label' => 'Até',
             'model' => 'filterFinalDate',
             ])
         </div>
@@ -61,7 +61,7 @@
         <div class="row">
             @include('partials.inputs.text', [
             'columnSize' => 12,
-            'label' => 'Busca textual (título, info na arte ou redação)',
+            'label' => 'Busca textual',
             'model' => 'filterText',
             'maxLenght' => 100,
             ])

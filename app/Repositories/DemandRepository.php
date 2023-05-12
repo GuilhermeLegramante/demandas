@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Services\LogService;
 use Illuminate\Support\Facades\DB;
 use Storage;
+use Str;
 
 class DemandRepository
 {
@@ -169,7 +170,9 @@ class DemandRepository
         foreach ($files as $file) {
             $path = '_lsmarketing/demandas';
 
-            $s3Path = Storage::disk('s3')->put($path, $file);
+            $filename = Str::random(4) . '_' . $file->getClientOriginalName();
+
+            $s3Path = Storage::disk('s3')->putFileAs($path, $file, $filename);
 
             DB::table('demand_files')
                 ->insertGetId(
