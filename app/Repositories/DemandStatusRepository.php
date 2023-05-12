@@ -40,9 +40,15 @@ class DemandStatusRepository
             ->paginate($perPage);
     }
 
-    public function allSimplified()
+    public function allSimplified($userStatus = [])
     {
-        return $this->baseQuery->get();
+        if (count($userStatus) > 0) {
+            return $this->baseQuery
+                ->whereIn($this->table . '.id', $userStatus)
+                ->get();
+        } else {
+            return $this->baseQuery->get();
+        }
     }
 
     public function save($data)

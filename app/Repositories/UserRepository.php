@@ -173,4 +173,35 @@ class UserRepository
             ->get()
             ->first();
     }
+
+    /**
+     * Return a user's status_id list
+     * Filtered by user's departments
+     *
+     * @return array
+     */
+    public function status()
+    {
+        $repository = new UserRepository();
+
+        $departments = $repository->departments(session()->get('userId'));
+
+        $userStatus = [];
+
+        if (count($departments) > 0) {
+            foreach ($departments as $value) {
+                $repository = new DepartmentRepository();
+
+                $statusList = $repository->status($value->departmentId);
+
+                if (count($statusList) > 0) {
+                    foreach ($statusList as $status) {
+                        array_push($userStatus, $status->statusId);
+                    }
+                }
+            }
+        }
+
+        return $userStatus;
+    }
 }

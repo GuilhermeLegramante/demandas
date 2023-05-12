@@ -51,6 +51,7 @@ class DemandRepository
         string $finalDate = null,
         string $search = null,
         $clientId = null,
+        $userStatus = [],
         string $sortBy = 'id',
         string $sortDirection = 'asc',
         string $perPage = '30'
@@ -89,14 +90,18 @@ class DemandRepository
             });
         }
 
+        if (count($userStatus) > 0) {
+            $demands->whereIn($this->table . '.demand_status_id', $userStatus);
+        }
+
         return $demands
             ->orderBy($sortBy, $sortDirection)
             ->paginate($perPage);
     }
 
-    public function favorites()
+    public function favorites($userStatus = [])
     {
-        return DB::table($this->table . ' AS demands')
+        $favorites = DB::table($this->table . ' AS demands')
             ->join('users', 'users.id', '=', 'demands.user_id')
             ->join('clients', 'clients.id', '=', 'demands.client_id')
             ->join('demand_status', 'demand_status.id', '=', 'demands.demand_status_id')
@@ -124,8 +129,13 @@ class DemandRepository
                 ) as totalFiles"),
                 DB::raw("(select ifnull((select 1 as isFavorite from demands as demands_3 inner join favorites on demands_3.id = favorites.demand_id where demands_3.id = demands.id AND favorites.user_id = " . session()->get('userId') . "), 0)) as isFavorite")
             )
-            ->where('favorites.user_id', session()->get('userId'))
-            ->groupBy('demands.id')
+            ->where('favorites.user_id', session()->get('userId'));
+
+        if (count($userStatus) > 0) {
+            $favorites->whereIn($this->table . '.demand_status_id', $userStatus);
+        }
+
+        return $favorites->groupBy('demands.id')
             ->get();
     }
 

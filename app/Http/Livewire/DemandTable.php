@@ -3,11 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Http\Livewire\Traits\SelectMultipleStatus;
+use App\Http\Livewire\Traits\WithUserStatus;
 use App\Http\Livewire\Traits\WithValidation;
 use App\Repositories\ClientRepository;
 use App\Repositories\DemandRepository;
 use App\Repositories\DemandStatusRepository;
 use App\Repositories\DemandTypeRepository;
+use App\Repositories\UserRepository;
 use App\Services\ArrayHandler;
 use DB;
 use Livewire\Component;
@@ -16,7 +18,7 @@ use Livewire\WithPagination;
 
 class DemandTable extends Component
 {
-    use WithFileUploads, WithValidation, WithPagination, SelectMultipleStatus;
+    use WithFileUploads, WithValidation, WithPagination, SelectMultipleStatus, WithUserStatus;
 
     public $pageTitle = 'Demandas';
     public $icon = 'fas fa-list';
@@ -60,6 +62,8 @@ class DemandTable extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $iteration = 1;
+
+    public $departmentsToFilter = [];
 
     protected $listeners = [
         'selectMultipleStatus',
@@ -111,8 +115,12 @@ class DemandTable extends Component
 
     public function mount()
     {
+        $this->setUserStatus();
+
         $repository = new DemandStatusRepository();
-        $this->statusToFilter = ArrayHandler::setSelect($repository->allSimplified(), 'id', 'description');
+        $status = $repository->allSimplified();
+
+        $this->statusToFilter = ArrayHandler::setSelect($status, 'id', 'description');
 
         $repository = new DemandTypeRepository();
         $this->demandTypesToFilter = ArrayHandler::setSelect($repository->allSimplified(), 'id', 'description');
@@ -371,6 +379,7 @@ class DemandTable extends Component
             $this->filterFinalDate,
             $this->filterText,
             $this->filterClientId,
+            $this->userStatus,
             $this->sortBy,
             $this->sortDirection,
             $this->perPage,
@@ -380,9 +389,7 @@ class DemandTable extends Component
             $this->emit('scrollTop');
         }
 
-        $favorites = $repository->favorites();
-
-        // dd($demands);
+        $favorites = $repository->favorites($this->userStatus);
 
         return view('livewire.demand-table', compact('demands', 'favorites'));
     }
