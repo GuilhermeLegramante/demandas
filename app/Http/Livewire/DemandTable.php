@@ -85,7 +85,7 @@ class DemandTable extends Component
     {
         return [
             'title' => ['required'],
-            // 'demandTypeId' => ['required'],
+            'demandTypeId' => ['required'],
             'demandStatusId' => ['required'],
             'clientId' => ['required'],
             'publicationDate' => ['after:' . now(), 'nullable'],
