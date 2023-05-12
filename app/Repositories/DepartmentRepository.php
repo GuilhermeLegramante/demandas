@@ -17,6 +17,7 @@ class DepartmentRepository
             ->select(
                 $this->table . '.id AS id',
                 $this->table . '.name AS name',
+                $this->table . '.name AS description',
                 $this->table . '.note AS note',
                 $this->table . '.created_at AS createdAt',
                 $this->table . '.updated_at AS updatedAt',

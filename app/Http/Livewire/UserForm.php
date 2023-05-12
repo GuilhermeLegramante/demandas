@@ -2,13 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Traits\SelectMultipleDepartment;
 use Livewire\Component;
 use Illuminate\Support\Facades\App;
 use App\Http\Livewire\Traits\WithForm;
+use App\Repositories\DepartmentRepository;
+use App\Repositories\UserRepository;
 
 class UserForm extends Component
 {
-    use WithForm;
+    use WithForm, SelectMultipleDepartment;
 
     public $pageTitle = 'Usuário';
     public $icon = 'fas fa-user';
@@ -33,6 +36,7 @@ class UserForm extends Component
         ['field' => 'password', 'edit' => true, 'type' => 'string'],
         ['field' => 'email', 'edit' => true],
         ['field' => 'isAdmin', 'edit' => true],
+        ['field' => 'departments', 'edit' => true],
     ];
 
     protected $validationAttributes = [
@@ -54,8 +58,28 @@ class UserForm extends Component
         ];
     }
 
+    protected $listeners = [
+        'selectMultipleDepartment',
+    ];
+
+    public $filter = [
+        'departmentsToSelect' => [],
+        'selectedDepartments' => [],
+        'departmentsDescriptions' => [],
+    ];
+
     public function mount($id = null)
     {
+        $repository = new DepartmentRepository();
+
+        $departments = $repository->allSimplified()->toArray();
+
+        foreach ($departments as $value) {
+            $department['value'] = $value->id;
+            $department['description'] = $value->name;
+            array_push($this->filter['departmentsToSelect'], $department);
+        }
+
         if (isset($id)) {
             $this->method = 'update';
 
@@ -82,10 +106,21 @@ class UserForm extends Component
         $this->isAdmin = $data->isAdmin;
 
         $this->email = $data->email;
+
+        $repository = new UserRepository();
+
+        $departments = $repository->departments($data->id);
+
+        foreach ($departments as $department) {
+            array_push($this->filter['departmentsDescriptions'], $department->name);
+            array_push($this->filter['selectedDepartments'], $department->departmentId);
+        }
     }
 
     public function customValidate()
     {
+        $this->departments = $this->filter['selectedDepartments'];
+
         return true;
     }
 

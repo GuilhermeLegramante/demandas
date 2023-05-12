@@ -55,7 +55,7 @@ class UserRepository
             null
         );
 
-        return DB::table($this->table)
+        $userId = DB::table($this->table)
             ->insertGetId(
                 [
                     'name' => $data['name'],
@@ -66,6 +66,25 @@ class UserRepository
                     'created_at' => now(),
                 ]
             );
+
+        if (isset($data['departments'])) {
+            DB::table('department_users')
+                ->where('user_id', $userId)
+                ->delete();
+
+            foreach ($data['departments'] as $departmentId) {
+                DB::table('department_users')
+                    ->insertGetId(
+                        [
+                            'user_id' => $userId,
+                            'department_id' => $departmentId,
+                            'created_at' => now(),
+                        ]
+                    );
+            }
+        }
+
+        return $userId;
     }
 
     public function update($data)
@@ -93,6 +112,23 @@ class UserRepository
                     'updated_at' => now(),
                 ]
             );
+
+        if (isset($data['departments'])) {
+            DB::table('department_users')
+                ->where('user_id', $data['recordId'])
+                ->delete();
+
+            foreach ($data['departments'] as $departmentId) {
+                DB::table('department_users')
+                    ->insertGetId(
+                        [
+                            'user_id' => $data['recordId'],
+                            'department_id' => $departmentId,
+                            'created_at' => now(),
+                        ]
+                    );
+            }
+        }
     }
 
     public function delete($data)
@@ -108,9 +144,26 @@ class UserRepository
             null
         );
 
+        DB::table('department_users')
+            ->where('user_id', $data['recordId'])
+            ->delete();
+
         DB::table($this->table)
             ->where('id', $data['recordId'])
             ->delete();
+    }
+
+    public function departments($userId)
+    {
+        return DB::table('department_users')
+            ->join('departments', 'departments.id', '=', 'department_users.department_id')
+            ->select(
+                'department_users.user_id AS userId',
+                'department_users.department_id AS departmentId',
+                'departments.name AS name',
+            )
+            ->where('department_users.user_id', $userId)
+            ->get();
     }
 
     public function findById($id)
