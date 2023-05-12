@@ -12,8 +12,17 @@
                 <div class="row">
                     @foreach ($demand['files'] as $file)
                     <div class="col-sm-3">
-                        <a target="_blank" href="{{ Storage::disk('s3')->url($file['path']) }}"><img onerror="this.onerror=null; this.src='img/no-preview.jpg'" src="{{ Storage::disk('s3')->url($file['path']) }}" alt="Anexo" class="img-fluid mb-2">
-                        </a>
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <a target="_blank" href="{{ Storage::disk('s3')->url($file['path']) }}"><img onerror="this.onerror=null; this.src='img/no-preview.jpg'" src="{{ Storage::disk('s3')->url($file['path']) }}" alt="Anexo" class="img-fluid mb-2">
+                                </a>
+                            </div>
+                            <div class="card-footer">
+                                <button wire:click.prevent="deleteFile({{ $file['id'] }}, {{ $file['demandId'] }})" title="Excluir o anexo" class="btn btn-light btn-sm" wire:loading.attr="disabled">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     @endforeach
                 </div>

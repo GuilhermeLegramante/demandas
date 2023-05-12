@@ -85,7 +85,7 @@
 
                 @if($isEdition && count($storedFiles) > 0)
                 <div class="text-center">
-                    <button wire:click.prevent="showFiles({{ $demandId }})" type="submit" wire:loading.attr="disabled" class="btn btn-block btn-dark btn-sm">
+                    <button wire:click.prevent="showFiles({{ $demandId }})" type="submit" wire:loading.attr="disabled" class="btn btn-block btn-light btn-sm">
                         <strong> ANEXOS &nbsp;</strong>
                         <i class="fas fa-paperclip" aria-hidden="true"></i>
                     </button>
@@ -96,7 +96,6 @@
                 </div>
                 @endif
             </div>
-
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal" wire:loading.attr="disabled">

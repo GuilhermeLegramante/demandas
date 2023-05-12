@@ -258,6 +258,13 @@ class DemandRepository
             ->delete();
     }
 
+    public function deleteFile($fileId)
+    {
+        DB::table('demand_files')
+            ->where('id', $fileId)
+            ->delete();
+    }
+
     public function findById($id)
     {
         $demand = $this->baseQuery
@@ -270,6 +277,7 @@ class DemandRepository
             ->where('demands.id', $id)
             ->select(
                 'demand_files.id AS id',
+                'demands.id AS demandId',
                 'demand_files.path AS path',
             )->get();
 

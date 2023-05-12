@@ -347,6 +347,15 @@ class DemandTable extends Component
         }
     }
 
+    public function deleteFile($fileId, $demandId)
+    {
+        $repository = new DemandRepository();
+
+        $repository->deleteFile($fileId);
+
+        $this->showFiles($demandId);
+    }
+
     public function render()
     {
         if ($this->sortBy == '') {
