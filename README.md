@@ -19,4 +19,5 @@
     - Lista de demandas filtradas pelos setores do usuário
 - 1.4.0 (15/05/2023) :
     - Cadastro de Planos e vinculação de responsáveis e plano ao cliente
+    - Clique de ação na linha do datatable
 <hr>
