@@ -3,7 +3,7 @@
     @if (isset($selectModal) && $type == 'single')
     <tr data-dismiss="modal" wire:click="$emit('{{ $selectModal }}', '{{ $item->id }}')" class="cursor-pointer">
         @else
-    <tr>
+    <tr @if(isset($buttons)) wire:click="{{ $buttons[0]->method }}({{ $item->id }})" class="cursor-pointer" @endif>
         @endif
         @foreach ($bodyColumns as $column)
         <td class="{{ isset($column['css']) ? $column['css'] : '' }} align-middle">
