@@ -5,6 +5,9 @@ namespace App\Http\Livewire;
 use App;
 use Livewire\Component;
 use App\Http\Livewire\Traits\WithForm;
+use App\Repositories\PlanRepository;
+use App\Repositories\UserRepository;
+use App\Services\ArrayHandler;
 use App\Services\Mask;
 
 class ClientForm extends Component
@@ -24,17 +27,28 @@ class ClientForm extends Component
     public $email;
     public $phone;
 
+    public $planId;
+    public $responsibleId;
+
+    public $plans = [];
+    public $users = [];
+
+
     protected $inputs = [
         ['field' => 'recordId', 'edit' => true],
         ['field' => 'name', 'edit' => true, 'type' => 'string'],
         ['field' => 'email', 'edit' => true],
         ['field' => 'phone', 'edit' => true, 'type' => 'string'],
+        ['field' => 'planId', 'edit' => true],
+        ['field' => 'responsibleId', 'edit' => true],
     ];
 
     protected $validationAttributes = [
         'name' => 'Nome',
         'email' => 'E-mail',
         'phone' => 'Telefone',
+        'planId' => 'Plano',
+        'responsibleId' => 'Responsável',
     ];
 
     public function rules()
@@ -46,6 +60,12 @@ class ClientForm extends Component
 
     public function mount($id = null)
     {
+        $repository = new PlanRepository();
+        $this->plans = ArrayHandler::setSelect($repository->allSimplified()->sortBy('name'), 'id', 'name');
+
+        $repository = new UserRepository();
+        $this->users = ArrayHandler::setSelect($repository->allSimplified()->sortBy('name'), 'id', 'name');
+
         if (isset($id)) {
             $this->method = 'update';
 

@@ -5,34 +5,23 @@ namespace App\Repositories;
 use App\Services\LogService;
 use Illuminate\Support\Facades\DB;
 
-class ClientRepository
+class PlanRepository
 {
-    private $table = 'clients';
+    private $table = 'plans';
 
     private $baseQuery;
 
     public function __construct()
     {
         $this->baseQuery = DB::table($this->table)
-            ->leftJoin('plans', 'plans.id', '=', 'clients.plan_id')
-            ->leftJoin('users', 'users.id', '=', 'clients.responsible_id')
             ->select(
                 $this->table . '.id AS id',
                 $this->table . '.name AS name',
-                $this->table . '.email AS email',
-                $this->table . '.phone AS phone',
-                $this->table . '.plan_id AS planId',
-                $this->table . '.responsible_id AS responsibleId',
-                'plans.name AS plan',
-                'plans.weekly_posts_quantity AS weeklyPostsQuantity',
-                'plans.has_offline_material AS hasOfflineMaterial',
-                'users.name AS responsible',
+                $this->table . '.note AS note',
+                $this->table . '.has_offline_material AS hasOfflineMaterial',
+                $this->table . '.weekly_posts_quantity AS weeklyPostsQuantity',
                 $this->table . '.created_at AS createdAt',
                 $this->table . '.updated_at AS updatedAt',
-                DB::raw("(select ifnull((SELECT (plans.weekly_posts_quantity - count(*)) as totalWeek
-                FROM demands AS demands_2
-                    WHERE WEEKOFYEAR(DATE(demands_2.publication_date)) = WEEKOFYEAR(CURDATE())
-                    AND YEAR(DATE(demands_2.publication_date)) = YEAR(CURDATE()) AND demands_2.client_id = clients.id), 0)) AS availableDemands")
             );
     }
 
@@ -69,10 +58,9 @@ class ClientRepository
             ->insertGetId(
                 [
                     'name' => $data['name'],
-                    'email' => isset($data['email']) ? $data['email'] : null,
-                    'phone' => isset($data['phone']) ? $data['phone'] : null,
-                    'plan_id' => isset($data['planId']) ? $data['planId'] : null,
-                    'responsible_id' => isset($data['responsibleId']) ? $data['responsibleId'] : null,
+                    'note' => isset($data['note']) ? $data['note'] : null,
+                    'has_offline_material' => isset($data['hasOfflineMaterial']) ? $data['hasOfflineMaterial'] : null,
+                    'weekly_posts_quantity' => isset($data['weeklyPostsQuantity']) ? $data['weeklyPostsQuantity'] : null,
                     'user_id' => session()->get('userId'),
                     'created_at' => now(),
                 ]
@@ -97,10 +85,9 @@ class ClientRepository
             ->update(
                 [
                     'name' => $data['name'],
-                    'email' => isset($data['email']) ? $data['email'] : null,
-                    'phone' => isset($data['phone']) ? $data['phone'] : null,
-                    'plan_id' => isset($data['planId']) ? $data['planId'] : null,
-                    'responsible_id' => isset($data['responsibleId']) ? $data['responsibleId'] : null,
+                    'note' => isset($data['note']) ? $data['note'] : null,
+                    'has_offline_material' => isset($data['hasOfflineMaterial']) ? $data['hasOfflineMaterial'] : null,
+                    'weekly_posts_quantity' => isset($data['weeklyPostsQuantity']) ? $data['weeklyPostsQuantity'] : null,
                     'user_id' => session()->get('userId'),
                     'updated_at' => now(),
                 ]

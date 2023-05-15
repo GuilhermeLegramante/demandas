@@ -43,14 +43,19 @@
             @break
 
             @case('color')
-
             <small style="background-color: {{ $item->{$column['field']} }}" class="badge badge-danger">
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
             </small>
             {{-- {{ $item->{$column['field']} }} --}}
             @break
-            @endswitch
 
+            @case('availablePosts')
+            <span style="font-size: 95%;" class="right badge {{ $item->{$column['field']} < 1 ? 'badge-danger' : 'badge-success' }}">
+                {{ $item->{$column['field']} }}
+            </span>
+            @break
+
+            @endswitch
         </td>
         @endforeach
         @if (isset($modalActionButtons))

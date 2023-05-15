@@ -19,4 +19,20 @@
     'model' => 'phone',
     ])
 </div>
+<div class="row">
+    @include('partials.inputs.select', [
+    'columnSize' => 12,
+    'label' => 'Plano',
+    'model' => 'planId',
+    'options' => $plans,
+    ])
+</div>
+<div class="row">
+    @include('partials.inputs.select', [
+    'columnSize' => 12,
+    'label' => 'Responsável',
+    'model' => 'responsibleId',
+    'options' => $users,
+    ])
+</div>
 <p><small>*campos obrigatórios</small></p>

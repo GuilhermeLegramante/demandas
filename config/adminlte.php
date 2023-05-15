@@ -230,12 +230,12 @@ return [
             'text' => 'Parâmetros',
             'icon' => 'nav-icon fas fa-table',
             'submenu' => [
-                // [
-                //     'text' => 'Plano',
-                //     'icon' => 'nav-icon fas fa-file-alt',
-                //     'url' => '/plano',
-                //     'active' => ['plano/*'],
-                // ],
+                [
+                    'text' => 'Plano',
+                    'icon' => 'nav-icon fas fa-file-alt',
+                    'url' => '/plano',
+                    'active' => ['plano/*'],
+                ],
                 [
                     'text' => 'Status',
                     'icon' => 'nav-icon fas fa-clipboard-list',
