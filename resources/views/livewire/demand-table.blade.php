@@ -5,6 +5,10 @@
 
 </div>
 @push('scripts')
+<style>
+
+
+</style>
 <script>
     window.livewire.on('showDemandFormModal', () => {
         $('#modal-demand-form').modal('show');
