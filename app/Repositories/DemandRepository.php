@@ -20,6 +20,7 @@ class DemandRepository
             ->join('clients', 'clients.id', '=', 'demands.client_id')
             ->join('demand_status', 'demand_status.id', '=', 'demands.demand_status_id')
             ->join('demand_types', 'demand_types.id', '=', 'demands.demand_type_id')
+            ->leftJoin('users AS responsible', 'responsible.id', '=', 'clients.responsible_id')
             ->select(
                 $this->table . '.id AS id',
                 $this->table . '.title AS title',
@@ -30,6 +31,8 @@ class DemandRepository
                 'users.name AS username',
                 $this->table . '.client_id AS clientId',
                 'clients.name AS clientName',
+                'clients.responsible_id AS responsibleId',
+                'responsible.name AS responsible',
                 $this->table . '.demand_status_id AS demandStatusId',
                 'demand_status.description AS demandStatusDescription',
                 'demand_status.color AS demandStatusColor',
@@ -51,6 +54,7 @@ class DemandRepository
         string $finalDate = null,
         string $search = null,
         $clientId = null,
+        $responsibleId = null,
         $userStatus = [],
         string $sortBy = 'id',
         string $sortDirection = 'asc',
@@ -74,6 +78,10 @@ class DemandRepository
 
         if ($clientId != null) {
             $demands->where($this->table . '.client_id', $clientId);
+        }
+
+        if ($responsibleId != null) {
+            $demands->where('clients.responsible_id', $responsibleId);
         }
 
         if ($search != null) {
@@ -107,6 +115,7 @@ class DemandRepository
             ->join('demand_status', 'demand_status.id', '=', 'demands.demand_status_id')
             ->join('demand_types', 'demand_types.id', '=', 'demands.demand_type_id')
             ->join('favorites', 'favorites.demand_id', '=', 'demands.id')
+            ->leftJoin('users AS responsible', 'responsible.id', '=', 'clients.responsible_id')
             ->select(
                 $this->table . '.id AS id',
                 $this->table . '.title AS title',
@@ -117,6 +126,8 @@ class DemandRepository
                 'users.name AS username',
                 $this->table . '.client_id AS clientId',
                 'clients.name AS clientName',
+                'clients.responsible_id AS responsibleId',
+                'responsible.name AS responsible',
                 $this->table . '.demand_status_id AS demandStatusId',
                 'demand_status.description AS demandStatusDescription',
                 'demand_status.color AS demandStatusColor',

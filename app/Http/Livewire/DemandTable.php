@@ -32,6 +32,8 @@ class DemandTable extends Component
     public $filterText;
     public $filterClientId;
     public $clientsToFilter = [];
+    public $responsibleToFilter = [];
+    public $filterResponsibleId;
 
     public $title;
     public $subtitle;
@@ -127,6 +129,9 @@ class DemandTable extends Component
 
         $repository = new ClientRepository();
         $this->clientsToFilter = ArrayHandler::setSelect($repository->allSimplified()->sortBy('name'), 'id', 'name');
+
+        $repository = new UserRepository();
+        $this->responsibleToFilter = ArrayHandler::setSelect($repository->allSimplified()->sortBy('name'), 'id', 'name');
 
         // $now = Carbon::now();
         // $this->filterStartDate = $now->startOfWeek()->format('Y-m-d');
@@ -379,6 +384,7 @@ class DemandTable extends Component
             $this->filterFinalDate,
             $this->filterText,
             $this->filterClientId,
+            $this->filterResponsibleId,
             $this->userStatus,
             $this->sortBy,
             $this->sortDirection,

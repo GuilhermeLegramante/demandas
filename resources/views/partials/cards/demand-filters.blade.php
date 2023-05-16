@@ -77,6 +77,14 @@
         </div>
         <div class="row">
             @include('partials.inputs.select', [
+            'columnSize' => 12,
+            'label' => 'Responsável',
+            'model' => 'filterResponsibleId',
+            'options' => $responsibleToFilter,
+            ])
+        </div>
+        <div class="row">
+            @include('partials.inputs.select', [
             'columnSize' => 4,
             'label' => 'Ordenar por',
             'model' => 'sortBy',
