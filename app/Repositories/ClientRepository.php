@@ -45,6 +45,9 @@ class ClientRepository
             ->orWhere([
                 [$this->table . '.name', 'like', '%' . $search . '%'],
             ])
+            ->orWhere([
+                ['users.name', 'like', '%' . $search . '%'],
+            ])
             ->orderBy($sortBy, $sortDirection)
             ->paginate($perPage);
     }

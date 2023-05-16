@@ -18,7 +18,7 @@ class ClientTable extends Component
     public $entity = 'client';
     public $pageTitle = 'Clientes';
     public $icon = 'fas fa-user-tag';
-    public $searchFieldsLabel = 'Código ou Nome';
+    public $searchFieldsLabel = 'Código, Nome do Cliente ou Nome do Responsável';
     public $hasForm = true;
 
     public $headerColumns = [
