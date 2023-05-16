@@ -25,7 +25,7 @@ class ClientTable extends Component
         ['field' => 'id', 'label' => 'Código', 'css' => 'text-center w-5'],
         ['field' => 'name', 'label' => 'Nome', 'css' => 'w-20'],
         ['field' => 'plan', 'label' => 'Plano', 'css' => 'w-20'],
-        ['field' => 'plan', 'label' => 'Responsável', 'css' => 'w-20'],
+        ['field' => 'responsible', 'label' => 'Responsável', 'css' => 'w-20'],
         ['field' => 'hasOfflineMaterial', 'label' => 'Material Offline', 'css' => 'text-center w-10'],
         ['field' => 'weeklyPostsQuantity', 'label' => 'Posts do Plano', 'css' => 'text-center w-10'],
         ['field' => 'availableDemands', 'label' => 'Posts Disponíveis', 'css' => 'text-center w-10'],
