@@ -64,6 +64,8 @@ trait WithForm
         } catch (\Exception $error) {
             DB::rollback();
 
+            session()->flash('error-details', $error->getMessage());
+
             isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
                 session()->flash('error', $error->getMessage());
         }
@@ -106,8 +108,9 @@ trait WithForm
         } catch (\Exception $error) {
             DB::rollback();
 
-            // isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
-            session()->flash('error', $error->getMessage());
+            session()->flash('error-details', $error->getMessage());
+
+            isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
         }
     }
 
@@ -130,6 +133,8 @@ trait WithForm
             DB::rollback();
 
             $this->emit('close');
+
+            session()->flash('error-details', $error->getMessage());
 
             isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
                 session()->flash('error', $error->getMessage());
