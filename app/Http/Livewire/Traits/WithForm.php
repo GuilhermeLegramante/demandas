@@ -111,6 +111,7 @@ trait WithForm
             session()->flash('error-details', $error->getMessage());
 
             isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
+            session()->flash('error', $error->getMessage());
         }
     }
 
