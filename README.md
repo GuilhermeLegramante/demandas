@@ -23,4 +23,6 @@
 - 1.5.0 (16/05/2023)
     - Busca por nome do responsável na listagem de clientes
     - Filtro de responsável na listagem de demandas
+- 1.6.0 (21/06/2023)
+    - Visualização do planejamento em formato de calendário.
 <hr>
