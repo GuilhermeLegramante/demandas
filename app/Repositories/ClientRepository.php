@@ -54,7 +54,9 @@ class ClientRepository
 
     public function allSimplified()
     {
-        return $this->baseQuery->get();
+        return $this->baseQuery
+            ->orderBy($this->table . '.name', 'asc')
+            ->get();
     }
 
     public function save($data)

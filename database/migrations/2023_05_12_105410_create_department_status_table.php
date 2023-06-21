@@ -21,11 +21,11 @@ class CreateDepartmentStatusTable extends Migration
             $table->foreign('status_id')
                 ->references('id')
                 ->on('demand_status')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->foreign('department_id')
                 ->references('id')
                 ->on('departments')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

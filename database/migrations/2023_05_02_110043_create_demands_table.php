@@ -25,15 +25,15 @@ class CreateDemandsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->foreign('demand_status_id')
                 ->references('id')
                 ->on('demand_status')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->foreign('demand_type_id')
                 ->references('id')
                 ->on('demand_types')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

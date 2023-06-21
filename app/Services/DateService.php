@@ -101,4 +101,34 @@ class DateService
         }
     }
 
+    public static function getDayDescription($code)
+    {
+        switch ($code) {
+            case 1:
+                return 'SEGUNDA';
+                break;
+            case 2:
+                return 'TERÇA';
+                break;
+            case 3:
+                return 'QUARTA';
+                break;
+            case 4:
+                return 'QUINTA';
+                break;
+            case 5:
+                return 'SEXTA';
+                break;
+            case 6:
+                return 'SÁBADO';
+                break;
+            case 7:
+                return 'DOMINGO';
+                break;
+            default:
+                return '';
+                break;
+        }
+    }
+
 }

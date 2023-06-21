@@ -22,11 +22,11 @@ class CreateDemandFilesTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             $table->foreign('demand_id')
                 ->references('id')
                 ->on('demands')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

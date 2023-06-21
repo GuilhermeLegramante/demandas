@@ -20,7 +20,7 @@ class AddColumnToClientsTable extends Migration
             $table->foreign('responsible_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

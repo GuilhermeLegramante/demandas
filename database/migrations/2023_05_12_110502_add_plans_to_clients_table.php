@@ -20,7 +20,7 @@ class AddPlansToClientsTable extends Migration
             $table->foreign('plan_id')
                 ->references('id')
                 ->on('plans')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

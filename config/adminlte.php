@@ -215,6 +215,12 @@ return [
             'active' => ['demanda/*'],
         ],
         [
+            'text' => 'Planejamento',
+            'icon' => 'nav-icon fas fa-calendar-alt',
+            'url' => '/planejamento',
+            'active' => ['planejamento/*'],
+        ],
+        [
             'text' => 'Clientes',
             'icon' => 'nav-icon fas fa-user-tag',
             'url' => '/cliente',

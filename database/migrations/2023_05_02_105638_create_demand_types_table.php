@@ -22,7 +22,7 @@ class CreateDemandTypesTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

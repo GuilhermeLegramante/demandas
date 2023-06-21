@@ -49,4 +49,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/inclusao', 'PlanController@form')->name('plan.create');
         Route::get('/{id}', 'PlanController@form')->name('plan.edit');
     });
+
+    Route::prefix('/planejamento')->group(function () {
+        Route::get('/', 'PlanningController@table')->name('plan.table');
+    });
 });
