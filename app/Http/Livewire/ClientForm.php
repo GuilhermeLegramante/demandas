@@ -99,6 +99,10 @@ class ClientForm extends Component
         $this->email = $data->email;
 
         $this->note = $data->note;
+
+        $this->planId = $data->planId;
+
+        $this->responsibleId = $data->responsibleId;
     }
 
     public function customValidate()
