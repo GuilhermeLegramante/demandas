@@ -35,4 +35,13 @@
     'options' => $users,
     ])
 </div>
+<div class="row">
+    @include('partials.inputs.textarea', [
+    'columnSize' => 12,
+    'label' => 'Observação',
+    'model' => 'note',
+    'rows' => 6,
+    'maxLength' => 5000,
+    ])
+</div>
 <p><small>*campos obrigatórios</small></p>

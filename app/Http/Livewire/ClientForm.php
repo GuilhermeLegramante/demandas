@@ -3,12 +3,12 @@
 namespace App\Http\Livewire;
 
 use App;
-use Livewire\Component;
 use App\Http\Livewire\Traits\WithForm;
 use App\Repositories\PlanRepository;
 use App\Repositories\UserRepository;
 use App\Services\ArrayHandler;
 use App\Services\Mask;
+use Livewire\Component;
 
 class ClientForm extends Component
 {
@@ -26,6 +26,7 @@ class ClientForm extends Component
     public $name;
     public $email;
     public $phone;
+    public $note;
 
     public $planId;
     public $responsibleId;
@@ -33,12 +34,12 @@ class ClientForm extends Component
     public $plans = [];
     public $users = [];
 
-
     protected $inputs = [
         ['field' => 'recordId', 'edit' => true],
         ['field' => 'name', 'edit' => true, 'type' => 'string'],
         ['field' => 'email', 'edit' => true],
         ['field' => 'phone', 'edit' => true, 'type' => 'string'],
+        ['field' => 'note', 'edit' => true, 'type' => 'string'],
         ['field' => 'planId', 'edit' => true],
         ['field' => 'responsibleId', 'edit' => true],
     ];
@@ -47,6 +48,7 @@ class ClientForm extends Component
         'name' => 'Nome',
         'email' => 'E-mail',
         'phone' => 'Telefone',
+        'note' => 'Observações',
         'planId' => 'Plano',
         'responsibleId' => 'Responsável',
     ];
@@ -95,6 +97,8 @@ class ClientForm extends Component
         $this->phone = $data->phone;
 
         $this->email = $data->email;
+
+        $this->note = $data->note;
     }
 
     public function customValidate()
