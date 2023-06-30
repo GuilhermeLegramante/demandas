@@ -48,6 +48,7 @@ class PlanningTable extends Component
         $this->year = $date->format('Y');
         $this->month = $date->format('m');
         $this->day = $date->format('d');
+
     }
 
     public function setClient($clientId)
@@ -57,8 +58,6 @@ class PlanningTable extends Component
 
     public function updatedDate()
     {
-        dd($this->date);
-
         $str = explode("-", $this->date);
 
         $this->year = $str[0];
@@ -129,6 +128,7 @@ class PlanningTable extends Component
         $this->date = $this->year . '-' . $this->shiftZeroOnMonth();
 
         $planning = new PlanningMonth($this->year, $this->month, $this->day, $data);
+        // $planning = new PlanningMonth(2023, 7, 1, $data);
 
         return view('livewire.planning-table', compact('planning'));
     }

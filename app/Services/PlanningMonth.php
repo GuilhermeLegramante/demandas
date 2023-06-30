@@ -57,9 +57,12 @@ class PlanningMonth
      */
     private function setDays()
     {
-        $date = new Carbon('last day of last month');
-        $lastDayOfLastMonth = $date->format('d');
-        $lastDayWeekOfLastMonth = $date->dayOfWeek + 0;
+        $previousMonth = Carbon::createFromDate($this->year, $this->month - 1, 1)
+            ->endOfMonth();
+
+        $lastDayOfLastMonth = $previousMonth->format('d');
+
+        $lastDayWeekOfLastMonth = $previousMonth->dayOfWeek + 0;
 
         $previousNumbers = [];
         $previousDaysWeek = [];
@@ -98,7 +101,7 @@ class PlanningMonth
         for ($i = 1; $i <= $this->daysInMonth; $i++) {
             $dt = Carbon::createFromDate($this->year, $this->month, $i);
 
-            $number = new PlanningDay($i, $date->dayOfWeek, true, $dt);
+            $number = new PlanningDay($i, $previousMonth->dayOfWeek, true, $dt);
 
             array_push($this->days, $number);
         }
