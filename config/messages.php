@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version' => '1.7.0',
+    'version' => '1.7.1',
     'send' => [
         'success' => 'Registro enviado com sucesso.',
     ],

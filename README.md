@@ -27,4 +27,6 @@
     - Visualização do planejamento em formato de calendário.
 - 1.7.0 (28/06/2023)
     - Inclusão do campo Observação no cadastro de cliente.
+- 1.7.1 (30/06/2023)
+    - Correção bug calendário.
 <hr>
