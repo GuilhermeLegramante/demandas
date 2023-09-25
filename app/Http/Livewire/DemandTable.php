@@ -94,7 +94,7 @@ class DemandTable extends Component
             'demandTypeId' => ['required'],
             'demandStatusId' => ['required'],
             'clientId' => ['required'],
-            'publicationDate' => ['after:' . now(), 'nullable'],
+            // 'publicationDate' => ['after:' . now(), 'nullable'], Removida a validação de data futura após pedido do cliente
         ];
     }
 
