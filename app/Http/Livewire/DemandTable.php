@@ -11,6 +11,7 @@ use App\Repositories\DemandStatusRepository;
 use App\Repositories\DemandTypeRepository;
 use App\Repositories\UserRepository;
 use App\Services\ArrayHandler;
+use App\Services\ErrorHandler;
 use DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -253,10 +254,10 @@ class DemandTable extends Component
         } catch (\Exception $error) {
             DB::rollback();
 
-            session()->flash('error-details', $error->getMessage());
+            $errorMessage = ErrorHandler::resolveMySqlMessage($error);
 
-            isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
-                session()->flash('error', $error->getMessage());
+            session()->flash('error-details', $error->getMessage());
+            session()->flash('error', $errorMessage);
         }
     }
 
@@ -294,10 +295,10 @@ class DemandTable extends Component
         } catch (\Exception $error) {
             DB::rollback();
 
-            session()->flash('error-details', $error->getMessage());
+            $errorMessage = ErrorHandler::resolveMySqlMessage($error);
 
-            isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
-                session()->flash('error', $error->getMessage());
+            session()->flash('error-details', $error->getMessage());
+            session()->flash('error', $errorMessage);
         }
     }
 
@@ -345,10 +346,10 @@ class DemandTable extends Component
 
             $this->emit('close');
 
-            session()->flash('error-details', $error->getMessage());
+            $errorMessage = ErrorHandler::resolveMySqlMessage($error);
 
-            isset($error->errorInfo) && $error->errorInfo[0] == '23000' ? session()->flash('error', config('messages.mysql.' . $error->errorInfo[1])) :
-                session()->flash('error', $error->getMessage());
+            session()->flash('error-details', $error->getMessage());
+            session()->flash('error', $errorMessage);
         }
     }
 

@@ -65,7 +65,9 @@
                                 @foreach ($day->demands as $demand)
                                 <div class="d-flex">
                                     <span style="background-color: {{ $demand->demandStatusColor }}!important;" class="right badge badge-danger mt-1 w-100">
-                                        <p class="p-1">{{ $demand->title }}
+                                        <p class="p-1">
+                                            {{ $demand->title }} <br>
+                                            {{ date('H\hi', strtotime($demand->publicationDate)) }}
                                             @if($demand->totalFiles > 0)
                                             <i class="fas fa-paperclip ml-1" aria-hidden="true"></i>
                                             @endif

@@ -29,4 +29,7 @@
     - Inclusão do campo Observação no cadastro de cliente.
 - 1.7.1 (30/06/2023)
     - Correção bug calendário.
+- 1.8.0 (25/09/2023)
+    - Removida a validação de data futura após pedido do cliente
+    - Método para tratar retorno de mensagens de erro na classe ErrorHandler
 <hr>
