@@ -32,4 +32,5 @@
 - 1.8.0 (25/09/2023)
     - Removida a validação de data futura após pedido do cliente
     - Método para tratar retorno de mensagens de erro na classe ErrorHandler
+    - Exibindo a hora da publicação na tela de planejamento
 <hr>
