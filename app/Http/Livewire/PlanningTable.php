@@ -122,7 +122,7 @@ class PlanningTable extends Component
             [],
             $this->sortBy,
             $this->sortDirection,
-            100,
+            3000,
         );
 
         $this->date = $this->year . '-' . $this->shiftZeroOnMonth();
