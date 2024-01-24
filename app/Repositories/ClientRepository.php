@@ -43,12 +43,15 @@ class ClientRepository
         return $this->baseQuery
             ->where([
                 [$this->table . '.id', 'like', '%' . $search . '%'],
+                [$this->table . '.active', '=', 1],
             ])
             ->orWhere([
                 [$this->table . '.name', 'like', '%' . $search . '%'],
+                [$this->table . '.active', '=', 1],
             ])
             ->orWhere([
                 ['users.name', 'like', '%' . $search . '%'],
+                [$this->table . '.active', '=', 1],
             ])
             ->orderBy($sortBy, $sortDirection)
             ->paginate($perPage);
