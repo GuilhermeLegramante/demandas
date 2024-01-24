@@ -33,4 +33,7 @@
     - Removida a validação de data futura após pedido do cliente
     - Método para tratar retorno de mensagens de erro na classe ErrorHandler
     - Exibindo a hora da publicação na tela de planejamento
+- 1.9.0 (24/01/2024)
+    - Listando demandas dos últimos 30 dias por padrão
+    - Adicionando coluna para ativar ou desativar cliente
 <hr>
