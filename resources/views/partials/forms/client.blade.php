@@ -36,6 +36,14 @@
     ])
 </div>
 <div class="row">
+    @include('partials.inputs.select', [
+    'columnSize' => 3,
+    'label' => 'Ativo*',
+    'model' => 'active',
+    'options' => [['value' => 1, 'description' => 'SIM'], ['value' => 0, 'description' => 'NÃO']],
+    ])
+</div>
+<div class="row">
     @include('partials.inputs.textarea', [
     'columnSize' => 12,
     'label' => 'Observação',

@@ -27,6 +27,7 @@ class ClientForm extends Component
     public $email;
     public $phone;
     public $note;
+    public $active = true;
 
     public $planId;
     public $responsibleId;
@@ -42,6 +43,7 @@ class ClientForm extends Component
         ['field' => 'note', 'edit' => true, 'type' => 'string'],
         ['field' => 'planId', 'edit' => true],
         ['field' => 'responsibleId', 'edit' => true],
+        ['field' => 'active', 'edit' => true],
     ];
 
     protected $validationAttributes = [
@@ -51,6 +53,7 @@ class ClientForm extends Component
         'note' => 'Observações',
         'planId' => 'Plano',
         'responsibleId' => 'Responsável',
+        'active' => 'Ativo',
     ];
 
     public function rules()
@@ -103,6 +106,8 @@ class ClientForm extends Component
         $this->planId = $data->planId;
 
         $this->responsibleId = $data->responsibleId;
+
+        $this->active = $data->active;
     }
 
     public function customValidate()

@@ -2,14 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\WithPagination;
 use App\Http\Livewire\Components\Button;
 use App\Http\Livewire\Traits\WithDatatable;
-use Livewire\Component;
 use App\Services\SessionService;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
-
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class ClientTable extends Component
 {
@@ -29,6 +27,7 @@ class ClientTable extends Component
         ['field' => 'hasOfflineMaterial', 'label' => 'Material Offline', 'css' => 'text-center w-10'],
         ['field' => 'weeklyPostsQuantity', 'label' => 'Posts do Plano', 'css' => 'text-center w-10'],
         ['field' => 'availableDemands', 'label' => 'Posts Disponíveis', 'css' => 'text-center w-10'],
+        ['field' => 'active', 'label' => 'Ativo', 'css' => 'text-center w-5'],
         ['field' => null, 'label' => 'Ações', 'css' => 'w-5 text-center'],
     ];
 
@@ -40,6 +39,7 @@ class ClientTable extends Component
         ['field' => 'hasOfflineMaterial', 'type' => 'boolean', 'css' => 'text-center'],
         ['field' => 'weeklyPostsQuantity', 'type' => 'string', 'css' => 'text-center'],
         ['field' => 'availableDemands', 'type' => 'availablePosts', 'css' => 'text-center'],
+        ['field' => 'active', 'type' => 'boolean', 'css' => 'text-center'],
     ];
 
     protected $repositoryClass = 'App\Repositories\ClientRepository';

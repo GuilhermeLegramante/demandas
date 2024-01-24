@@ -23,6 +23,7 @@ class ClientRepository
                 $this->table . '.phone AS phone',
                 $this->table . '.note AS note',
                 $this->table . '.plan_id AS planId',
+                $this->table . '.active AS active',
                 $this->table . '.responsible_id AS responsibleId',
                 'plans.name AS plan',
                 'plans.weekly_posts_quantity AS weeklyPostsQuantity',
@@ -80,6 +81,7 @@ class ClientRepository
                     'note' => isset($data['note']) ? $data['note'] : null,
                     'plan_id' => isset($data['planId']) ? $data['planId'] : null,
                     'responsible_id' => isset($data['responsibleId']) ? $data['responsibleId'] : null,
+                    'active' => $data['active'],
                     'user_id' => session()->get('userId'),
                     'created_at' => now(),
                 ]
@@ -109,6 +111,7 @@ class ClientRepository
                     'note' => isset($data['note']) ? $data['note'] : null,
                     'plan_id' => isset($data['planId']) ? $data['planId'] : null,
                     'responsible_id' => isset($data['responsibleId']) ? $data['responsibleId'] : null,
+                    'active' => $data['active'],
                     'user_id' => session()->get('userId'),
                     'updated_at' => now(),
                 ]
