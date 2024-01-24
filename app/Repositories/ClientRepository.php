@@ -60,7 +60,7 @@ class ClientRepository
     public function allSimplified()
     {
         return $this->baseQuery
-            ->where('client.active', 1)
+            ->where('clients.active', 1)
             ->orderBy($this->table . '.name', 'asc')
             ->get();
     }
