@@ -313,6 +313,12 @@ class DemandTable extends Component
 
         $this->demand = ArrayHandler::jsonDecodeEncode($repository->findById($demandId));
 
+        foreach ($this->demand['files'] as $key => $file) {
+            $exploit = explode('/', $file['path']);
+            $file['filename'] = end($exploit);
+            $this->demand['files'][$key] = $file;
+        }
+
         $this->emit('showDemandFilesModal');
     }
 

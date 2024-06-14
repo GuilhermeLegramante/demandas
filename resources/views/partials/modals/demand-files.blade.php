@@ -16,6 +16,9 @@
                             <div class="card-body">
                                 <a target="_blank" href="{{ Storage::disk('s3')->url($file['path']) }}"><img onerror="this.onerror=null; this.src='img/no-preview.jpg'" src="{{ Storage::disk('s3')->url($file['path']) }}" alt="Anexo" class="img-fluid mb-2">
                                 </a>
+                                @isset($file['filename'])
+                                <p>{{ $file['filename'] }}</p>
+                                @endisset
                             </div>
                             <div class="card-footer">
                                 <button wire:click.prevent="deleteFile({{ $file['id'] }}, {{ $file['demandId'] }})" title="Excluir o anexo" class="btn btn-light btn-sm" wire:loading.attr="disabled">
