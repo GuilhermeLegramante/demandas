@@ -23,6 +23,7 @@ class StatusTable extends Component
 
     public $headerColumns = [
         ['field' => 'id', 'label' => 'Código', 'css' => 'text-center w-5'],
+        ['field' => 'sequential', 'label' => 'Sequencial', 'css' => 'text-center w-5'],
         ['field' => 'color', 'label' => 'Cor', 'css' => 'text-center w-15'],
         ['field' => 'description', 'label' => 'Descrição', 'css' => 'w-70'],
         ['field' => null, 'label' => 'Ações', 'css' => 'w-5 text-center'],
@@ -30,6 +31,7 @@ class StatusTable extends Component
 
     public $bodyColumns = [
         ['field' => 'id', 'type' => 'string', 'css' => 'text-center'],
+        ['field' => 'sequential', 'type' => 'string', 'css' => 'text-center'],
         ['field' => 'color', 'type' => 'color', 'css' => 'text-center'],
         ['field' => 'description', 'type' => 'string', 'css' => 'pl-12px'],
     ];

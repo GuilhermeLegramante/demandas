@@ -16,6 +16,7 @@ class DemandStatusRepository
         $this->baseQuery = DB::table($this->table)
             ->select(
                 $this->table . '.id AS id',
+                $this->table . '.sequential AS sequential',
                 $this->table . '.description AS description',
                 $this->table . '.color AS color',
                 $this->table . '.note AS note',
@@ -65,6 +66,7 @@ class DemandStatusRepository
         return DB::table($this->table)
             ->insertGetId(
                 [
+                    'sequential' => $data['sequential'],
                     'description' => $data['description'],
                     'color' => $data['color'],
                     'note' => isset($data['note']) ? $data['note'] : null,
@@ -91,6 +93,7 @@ class DemandStatusRepository
             ->where('id', $data['recordId'])
             ->update(
                 [
+                    'sequential' => $data['sequential'],
                     'description' => $data['description'],
                     'color' => $data['color'],
                     'note' => isset($data['note']) ? $data['note'] : null,

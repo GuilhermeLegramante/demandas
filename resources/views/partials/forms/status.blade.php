@@ -1,4 +1,11 @@
 <div class="row">
+    @include('partials.inputs.number', [
+    'columnSize' => 12,
+    'label' => 'Sequencial*',
+    'model' => 'sequential',
+    ])
+</div>
+<div class="row">
     @include('partials.inputs.text', [
     'columnSize' => 12,
     'label' => 'Descrição*',

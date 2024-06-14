@@ -22,9 +22,11 @@ class StatusForm extends Component
     public $description;
     public $color;
     public $note;
+    public $sequential;
 
     protected $inputs = [
         ['field' => 'recordId', 'edit' => true],
+        ['field' => 'sequential', 'edit' => true],
         ['field' => 'description', 'edit' => true, 'type' => 'string'],
         ['field' => 'color', 'edit' => true],
         ['field' => 'note', 'edit' => true, 'type' => 'string'],
@@ -32,6 +34,7 @@ class StatusForm extends Component
 
     protected $validationAttributes = [
         'description' => 'Descrição',
+        'sequential' => 'Sequencial',
         'color' => 'Cor',
         'note' => 'Observação',
     ];
@@ -41,6 +44,7 @@ class StatusForm extends Component
         return [
             'description' => ['required'],
             'color' => ['required'],
+            'sequential' => ['required']
         ];
     }
 
@@ -70,6 +74,8 @@ class StatusForm extends Component
         $this->color = $data->color;
 
         $this->note = $data->note;
+
+        $this->sequential = $data->sequential;
     }
 
     public function customValidate()
