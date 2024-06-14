@@ -58,7 +58,7 @@ class DemandTable extends Component
 
     public $sortBy = 'id';
 
-    public $sortDirection = 'asc';
+    public $sortDirection = 'desc';
 
     public $perPage = '30';
 
@@ -141,7 +141,8 @@ class DemandTable extends Component
         $this->filterStartDate = now()->subDays(30)->format('Y-m-d');
         $this->filterFinalDate = now()->format('Y-m-d');
 
-        $this->sortBy = 'demandStatusId';
+        $this->sortBy = 'updatedAt';
+        $this->sortDirection == 'desc';
 
         $this->sortByList = [
             ['value' => 'demandStatusId', 'description' => 'Status'],
@@ -152,6 +153,7 @@ class DemandTable extends Component
             ['value' => 'username', 'description' => 'Usuário'],
             ['value' => 'createdAt', 'description' => 'Data de Criação'],
             ['value' => 'publicationDate', 'description' => 'Data de Publicação'],
+            ['value' => 'updatedAt', 'description' => 'Data de Modificação'],
         ];
     }
 

@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5000ms>
     @include('pages.demand-table')
 
     @livewire('status-select-multiple')
