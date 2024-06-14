@@ -24,12 +24,14 @@ class StatusSelectMultiple extends Component
         $this->headerColumns = [
             ['field' => null, 'label' => 'checkbox', 'css' => 'text-center w-10'],
             ['field' => 'color', 'label' => 'Cor', 'css' => 'text-center w-5'],
+            ['field' => 'sequential', 'label' => 'Sequencial', 'css' => 'text-center w-5'],
             ['field' => 'description', 'label' => 'Descrição', 'css' => 'w-50'],
         ];
 
         $this->bodyColumns = [
             ['field' => 'id', 'label' => 'description', 'type' => 'checkbox', 'css' => 'text-center'],
             ['field' => 'color', 'type' => 'color', 'css' => 'text-center'],
+            ['field' => 'sequential', 'type' => 'string', 'css' => 'text-center'],
             ['field' => 'description', 'type' => 'string', 'css' => 'pl-12px'],
         ];
 
