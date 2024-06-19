@@ -406,7 +406,7 @@ class DemandTable extends Component
         );
 
         if ($demands->total() == $demands->lastItem()) {
-            $this->emit('scrollTop');
+            // $this->emit('scrollTop');
         }
 
         $favorites = $repository->favorites($this->userStatus);

@@ -1,6 +1,3 @@
-window.livewire.on('scrollTop', () => {
-    $(window).scrollTop(0);
-});
 
 window.livewire.on('close', () => {
     $('#modal-delete').modal('hide');

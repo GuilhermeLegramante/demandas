@@ -32,10 +32,6 @@
         $('#modal-delete').modal('hide');
     });
 
-    window.livewire.on('scrollTop', () => {
-        $(window).scrollTop(0);
-    });
-
     window.livewire.on('showMultipleStatusModal', () => {
         $('#modal-select-multiple-status').modal('show');
     });
