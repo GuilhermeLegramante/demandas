@@ -2,7 +2,7 @@
 
 @section('adminlte_css_pre')
 <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-<link rel="icon" href="https://hardsoft.s3.sa-east-1.amazonaws.com/_lsmarketing/assets/logo.png" type="image/x-icon" />
+<link rel="icon" href="https://hardsoftsistemas.s3.amazonaws.com/_lsmarketing/assets/logo.png" type="image/x-icon" />
 @stop
 
 @section('adminlte_css')
