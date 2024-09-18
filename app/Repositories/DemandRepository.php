@@ -193,6 +193,9 @@ class DemandRepository
 
             $filename = Str::random(4) . '_' . $file->getClientOriginalName();
 
+            // Salvando também localmente
+            Storage::putFileAs($path, $file, $filename);
+
             $s3Path = Storage::disk('s3')->putFileAs($path, $file, $filename);
 
             DB::table('demand_files')
