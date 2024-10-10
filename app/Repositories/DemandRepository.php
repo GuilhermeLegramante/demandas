@@ -196,7 +196,7 @@ class DemandRepository
             // Salvando também localmente
             Storage::putFileAs($path, $file, $filename);
 
-            $s3Path = Storage::disk('s3')->putFileAs($path, $file, $filename);
+            $s3Path = Storage::disk('s3')->putFileAs($path, $file, $filename, 'public');
 
             DB::table('demand_files')
                 ->insertGetId(
